@@ -1,0 +1,38 @@
+name: openwallet
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  datetime_picker_formfield:
+  flutter_colorpicker:
+  sqflite:
+  path_provider:
+  simple_permissions:
+  flutter_launcher_icons:
+  charts_flutter:
+  pie_chart:
+  shared_preferences:
+  flutter_circular_chart:
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+
+flutter_icons:
+  image_path: "icon/icon.png" 
+  android: true
+  ios: false
