@@ -31,6 +31,7 @@ class _OverviewPageState extends State<OverviewPage> {
   int endYear;
   int startMonth;
   int endMonth;
+  int lastSwipe = 0;
 
   @override
   void initState() {
@@ -61,16 +62,22 @@ class _OverviewPageState extends State<OverviewPage> {
                 SizedBox(
                   height: 20,
                 ),
-                Center(child: Text('${year}.${month}月支出分类')),
+                Center(child: Text('$year.$month月支出分类')),
                 GestureDetector(
                   onPanUpdate: (details) {
+                    int now = DateTime.now().millisecondsSinceEpoch;
                     if (details.delta.dx > 5) {
-                      // swipe right
-                      addToMonth(-1);
+                      print("swipe right ${details.delta.dx}");
+                      if (now - lastSwipe > 500) {
+                        addToMonth(-1);
+                      }
                     } else if (details.delta.dx < -5) {
-                      // swipe left
-                      addToMonth(1);
+                      print("swipe left ${details.delta.dx}");
+                      if (now - lastSwipe > 500) {
+                        addToMonth(1);
+                      }
                     }
+                    lastSwipe = now;
                   },
                   child: Container(
                     child: buildPieChart(),
@@ -280,7 +287,8 @@ class _OverviewPageState extends State<OverviewPage> {
         domainFn: (TagAmount ta, _) => '${ta.tag}',
         measureFn: (TagAmount ta, _) => ta.value,
         data: dataByTag.values.toList(),
-        labelAccessorFn: (TagAmount ta, _) => '${ta.tag}\n${ta.value.toStringAsFixed(2)}',
+        labelAccessorFn: (TagAmount ta, _) =>
+            '${ta.tag}\n${ta.value.toStringAsFixed(2)}',
       )
     ];
   }

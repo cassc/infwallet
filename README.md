@@ -1,16 +1,20 @@
-# openwallet
+![OpenWallet Screenshot](screenshot.png)
 
-A new Flutter project.
+# 功能
 
-## Getting Started
+使用Flutter实现的开源个人钱包。当前有以下功能
 
-This project is a starting point for a Flutter application.
+* 交易记录
+* 账户：支持多种货币单位
+* 借贷：可在创建借贷时创建关联交易
+* 标签
+* 概览：以月为单位的收支情况
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+# 存储位置/备份
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+数据以sqlite格式储存于`/sdcard/openwallet/`目录，若需将数据转移至另一部手机，拷贝此目录即可。
+
+# 下载
+
+可在[Githu Release页](https://github.com/cassc/openwallet/releases)下载。
