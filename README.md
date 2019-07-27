@@ -17,4 +17,4 @@
 
 # 下载
 
-可在[Githu Release页]()下载。
+可在[Githu Release页](https://github.com/cassc/openwallet/releases)下载。
