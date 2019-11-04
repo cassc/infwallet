@@ -4,7 +4,6 @@ import 'package:openwallet/model/account.dart';
 import 'package:openwallet/model/debts.dart';
 
 import '../const.dart';
-import 'debt_edit.dart';
 import 'debt_list.dart';
 import 'shared.dart';
 
@@ -213,16 +212,16 @@ class DebtDetailsPage extends StatelessWidget {
   }
 
   dynamic _genActionBtns(context) {
-    List<Widget> actions = [
-      IconButton(
-        icon: Icon(Icons.edit),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return DebtEditPage(debt);
-          }));
-        },
-      ),
-    ];
+    // debt edit disabled
+    // Widget editDebtButton = IconButton(
+    //   icon: Icon(Icons.edit),
+    //   onPressed: () {
+    //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+    //       return DebtEditPage(debt);
+    //     }));
+    //   },
+    // );
+    List<Widget> actions = [];
     if (debt.id > 0) {
       actions.add(IconButton(
         icon: Icon(Icons.delete),

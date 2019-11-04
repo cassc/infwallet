@@ -20,10 +20,10 @@ AppBar genAppBar({String title: ''}) {
       ),
     ),
     actions: [
-      IconButton(
-        icon: Icon(Icons.search),
-        onPressed: () {},
-      )
+      // IconButton(
+      //   icon: Icon(Icons.search),
+      //   onPressed: () {},
+      // )
     ],
   );
 }

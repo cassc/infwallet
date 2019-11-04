@@ -114,8 +114,8 @@ class DebtEditState extends State<DebtEditPage> {
             context,
             MaterialPageRoute(
               builder: (context) => AccountEditPage(
-                    account: Account(),
-                  ),
+                account: Account(),
+              ),
             )),
         child: Container(
           child: Text('请先创建账户'),
@@ -132,8 +132,7 @@ class DebtEditState extends State<DebtEditPage> {
 
     return DropdownButtonFormField<int>(
       hint: Text('请选择账户'),
-      validator: (val) =>
-          (val == null || val < 1) ? '请选择账户' : null,
+      validator: (val) => (val == null || val < 1) ? '请选择账户' : null,
       value: _debt.aid,
       onChanged: (val) {
         setState(() {
@@ -262,10 +261,12 @@ class DebtEditState extends State<DebtEditPage> {
       form.save();
       await upsertDebt(_debt);
       setDefaultDbType(_debt.dbType);
+
       if (!isEdit && _shouldAddTx) {
         Transaction tx = Transaction.copyFromDebt(_debt);
         await upsertTx(tx);
       }
+      // todo when editing debt, associated tx should also be modifed
       Navigator.push(
           context,
           MaterialPageRoute(
