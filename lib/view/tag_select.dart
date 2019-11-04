@@ -76,9 +76,16 @@ class TagSelectState extends State<TagSelectPage> {
           _initData();
         },
         child: Chip(
-          backgroundColor: tag.color.withAlpha(40),
+          backgroundColor: tag.color,
           avatar: icon,
-          label: Text(tag.title),
+          label: Text(
+            tag.title,
+            style: TextStyle(
+              color: tag.color.computeLuminance() > 0.5
+                  ? Colors.black
+                  : Colors.white,
+            ),
+          ),
         ),
       ));
     });

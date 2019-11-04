@@ -60,7 +60,11 @@ class TagManageState extends State<TagManagePage> {
         backgroundColor: tag.color,
         child: Text(
           tag.title.substring(0, 1),
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: tag.color.computeLuminance() > 0.5
+                ? Colors.black
+                : Colors.white,
+          ),
         ),
       );
 
