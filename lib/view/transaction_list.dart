@@ -138,8 +138,10 @@ class TransactionListPageState extends State<TransactionListPage> {
       String tagS = tx.tagList.first;
       Tag tag = _tagList.firstWhere((tag) {
         return tag.title == tagS;
+      }, orElse: () {
+        return null;
       });
-      return tag.color;
+      return tag==null ? color: tag.color;
     }
     return color;
   }
