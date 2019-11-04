@@ -141,7 +141,7 @@ class TransactionListPageState extends State<TransactionListPage> {
       }, orElse: () {
         return null;
       });
-      return tag==null ? color: tag.color;
+      return tag == null ? color : tag.color;
     }
     return color;
   }
@@ -150,27 +150,27 @@ class TransactionListPageState extends State<TransactionListPage> {
     return [
       Padding(
         padding: EdgeInsets.only(top: 6),
-        child: DropdownButton(
-          style: TextStyle(
-            color: Colors.black,
+        child: Theme(
+          data: Theme.of(context).copyWith(canvasColor: Colors.blue),
+          child: DropdownButton(
+            hint: Text('请选择', style: TextStyle(color: Colors.white)),
+            style: TextStyle(color: Colors.white),
+            icon: Icon(
+              Icons.local_bar,
+              color: Colors.white,
+            ),
+            value: activeAid,
+            onChanged: (val) {
+              activeAid = val;
+              _initTxList();
+            },
+            items: _accountList.map((ac) {
+              return DropdownMenuItem(
+                child: Text(ac.title),
+                value: ac.id,
+              );
+            }).toList(),
           ),
-          icon: Icon(
-            Icons.local_bar,
-            color: Colors.black,
-          ),
-          value: activeAid,
-          onChanged: (val) {
-            activeAid = val;
-            _initTxList();
-          },
-          items: _accountList.map((ac) {
-            return DropdownMenuItem(
-              child: Text(
-                ac.title,
-              ),
-              value: ac.id,
-            );
-          }).toList(),
         ),
       )
     ];
