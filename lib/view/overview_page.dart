@@ -100,7 +100,7 @@ class _OverviewPageState extends State<OverviewPage> {
     var txList = await getTxs();
     var acList = await getAccounts();
 
-    if (acList.isEmpty) {
+    if (acList.isEmpty || txList.isEmpty) {
       return;
     }
 

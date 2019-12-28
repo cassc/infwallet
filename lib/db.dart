@@ -19,7 +19,10 @@ class DBHelper {
     }
     // var databasesPath = await getDatabasesPath();
     Directory extDir = await getExternalStorageDirectory();
-    String path = join(extDir.path, 'openwallet', 'openwallet.db');
+    String root = join(extDir.path, 'openwallet');
+    String path = join(root, 'openwallet.db');
+
+    backupDb(root, 'openwallet.db');
 
     db = await openDatabase(
       path,
@@ -44,8 +47,20 @@ class DBHelper {
   }
 
   static _onUpgrade(Database db, int oldVer, int newVer) async {
-    await db.execute(
-        'alter table `transaction` add dbid int');
+    await db.execute('alter table `transaction` add dbid int');
+  }
+}
+
+void backupDb(String root, String dbfile) {
+  final file = File(join(root, dbfile));
+  final today = DateTime.now();
+  final backupName = '${today.year}_${today.month}_${today.day}_$dbfile';
+  final backupPath = join(root, 'backup', backupName);
+  final backup = File(backupPath);
+  if (file.existsSync() && !backup.existsSync()) {
+    backup.parent.createSync(recursive: true);
+    file.copySync(backupPath);
+    print('backup to $backupPath success');
   }
 }
 
@@ -63,45 +78,3 @@ Future<bool> _requestStoragePermission() async {
     return true;
   }
 }
-
-// Future backupOrRestore(String dbpath) async {
-//   File backupFile;
-//   File dbFile;
-//   try {
-//     if (!Platform.isAndroid) {
-//       // TOOD backup for iOS platform
-//       return;
-//     }
-
-//     PermissionStatus permissionStatus =
-//         await SimplePermissions.requestPermission(
-//             Permission.WriteExternalStorage);
-//     if (!(permissionStatus == PermissionStatus.authorized)) {
-//       print('Request file write permission failed: $permissionStatus');
-//       return;
-//     }
-
-//     Directory extDir = await getExternalStorageDirectory();
-//     String backupPath = '${extDir.path}/openwallet.db';
-//     backupFile = File(backupPath);
-//     dbFile = File(dbpath);
-//     bool dbExist = await dbFile.exists();
-//     bool backupExist = await backupFile.exists();
-
-//     if (!dbExist && backupExist) {
-//       print('restore db from $backupPath');
-//       await backupFile.copy(dbpath);
-//       return;
-//     }
-
-//     if (!dbExist) {
-//       return;
-//     }
-
-//     print('backup database to $backupPath');
-//     await dbFile.copy(backupPath);
-//     print('Backup success: $backupPath');
-//   } catch (e) {
-//     print('Ignore db backup error: $e');
-//   }
-// }

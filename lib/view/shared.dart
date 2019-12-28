@@ -65,11 +65,11 @@ Widget genSideDrawer(BuildContext context) {
             style: textStyle,
           ),
           onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TransactionListPage(),
-                ),
-              ),
+            context,
+            MaterialPageRoute(
+              builder: (context) => TransactionListPage(),
+            ),
+          ),
         ),
         ListTile(
           leading: Icon(
@@ -81,11 +81,11 @@ Widget genSideDrawer(BuildContext context) {
             style: textStyle,
           ),
           onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AccountListPage(),
-                ),
-              ),
+            context,
+            MaterialPageRoute(
+              builder: (context) => AccountListPage(),
+            ),
+          ),
         ),
         ListTile(
           leading: Icon(
@@ -97,11 +97,11 @@ Widget genSideDrawer(BuildContext context) {
             style: textStyle,
           ),
           onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DebtListPage(),
-                ),
-              ),
+            context,
+            MaterialPageRoute(
+              builder: (context) => DebtListPage(),
+            ),
+          ),
         ),
         ListTile(
           leading: Icon(
@@ -113,11 +113,11 @@ Widget genSideDrawer(BuildContext context) {
             style: textStyle,
           ),
           onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TagManagePage(),
-                ),
-              ),
+            context,
+            MaterialPageRoute(
+              builder: (context) => TagManagePage(),
+            ),
+          ),
         ),
         ListTile(
           leading: Icon(
@@ -129,11 +129,11 @@ Widget genSideDrawer(BuildContext context) {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OverviewPage(),
-                ),
-              ),
+            context,
+            MaterialPageRoute(
+              builder: (context) => OverviewPage(),
+            ),
+          ),
         ),
         // ListTile(
         //   leading: Icon(Icons.transfer_within_a_station),
@@ -178,8 +178,7 @@ void showDeleteAccountDialog(BuildContext context, okCallback) {
       builder: (context) {
         return AlertDialog(
           title: Text('警告！'),
-          content: Text(
-              '相关交易记录将同时删除！确认要删除吗？'),
+          content: Text('相关交易记录将同时删除！确认要删除吗？'),
           actions: <Widget>[
             FlatButton(
               child: Text('取消'),
@@ -200,8 +199,7 @@ void showDeleteDebtDialog(BuildContext context, okCallback) {
       builder: (context) {
         return AlertDialog(
           title: Text('警告！'),
-          content: Text(
-              '相关交易记录将一并删除，确认删除吗？'),
+          content: Text('相关交易记录将一并删除，确认删除吗？'),
           actions: <Widget>[
             FlatButton(
               child: Text('取消'),
@@ -241,7 +239,8 @@ String currencySymbolFromAid(int aid, List<Account> acList) {
   if (aid == null || aid < 1 || acList == null || acList.isEmpty) {
     return '?';
   }
-  return acList.firstWhere((ac) => ac.id == aid).currencySymbol;
+  final currency =  acList.firstWhere((ac) => ac.id == aid);
+  return currency.currencySymbol;
 }
 
 Tag tagByTitle(title, tagList) {
