@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:openwallet/model/tags.dart';
-import 'package:openwallet/view/tag_edit.dart';
+import 'package:infwallet/model/tags.dart';
+import 'package:infwallet/view/tag_edit.dart';
 
 class TagSelectPage extends StatefulWidget {
   final List<String> selected;

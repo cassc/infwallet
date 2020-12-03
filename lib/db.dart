@@ -1,9 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:simple_permissions/simple_permissions.dart';
+// import 'package:simple_permissions/simple_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DBHelper {
   static Database db;
@@ -19,10 +21,10 @@ class DBHelper {
     }
     // var databasesPath = await getDatabasesPath();
     Directory extDir = await getExternalStorageDirectory();
-    String root = join(extDir.path, 'openwallet');
-    String path = join(root, 'openwallet.db');
+    String root = join(extDir.path, 'infwallet');
+    String path = join(root, 'infwallet.db');
 
-    backupDb(root, 'openwallet.db');
+    backupDb(root, 'infwallet.db');
 
     db = await openDatabase(
       path,
@@ -65,16 +67,16 @@ void backupDb(String root, String dbfile) {
 }
 
 Future<bool> _requestStoragePermission() async {
-  if (!Platform.isAndroid) {
+  bool status = await Permission.storage.isGranted;
+  if (status){
+    return status;
+  }
+
+  if (await Permission.storage.isRestricted) {
+    log('Permission is restricted!');
     return false;
   }
 
-  PermissionStatus permissionStatus = await SimplePermissions.requestPermission(
-      Permission.WriteExternalStorage);
-  if (!(permissionStatus == PermissionStatus.authorized)) {
-    print('Request file write permission failed: $permissionStatus');
-    return false;
-  } else {
-    return true;
-  }
+  return await Permission.storage.request().isGranted;
+
 }

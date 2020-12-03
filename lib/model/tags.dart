@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openwallet/view/shared.dart';
+import 'package:infwallet/view/shared.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../db.dart';

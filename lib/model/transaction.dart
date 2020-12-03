@@ -1,5 +1,5 @@
-import 'package:openwallet/const.dart';
-import 'package:openwallet/model/account.dart';
+import 'package:infwallet/const.dart';
+import 'package:infwallet/model/account.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../db.dart';

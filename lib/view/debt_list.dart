@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:openwallet/const.dart';
-import 'package:openwallet/model/debts.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/transaction.dart';
-import 'package:openwallet/view/transaction_edit.dart';
+import 'package:infwallet/const.dart';
+import 'package:infwallet/model/debts.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/transaction.dart';
+import 'package:infwallet/view/transaction_edit.dart';
 
 import 'debt_details.dart';
 import 'debt_edit.dart';

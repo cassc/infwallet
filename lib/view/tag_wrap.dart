@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:openwallet/model/tags.dart';
-import 'package:openwallet/view/shared.dart';
+import 'package:infwallet/model/tags.dart';
+import 'package:infwallet/view/shared.dart';
 
 class TagWrap extends StatelessWidget {
   final List<String> selected;

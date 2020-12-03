@@ -1,4 +1,4 @@
-![OpenWallet Screenshot](screenshot.png)
+![InfWallet Screenshot](screenshot.png)
 
 # 功能
 
@@ -13,8 +13,8 @@
 
 # 存储位置/备份
 
-数据以sqlite格式储存于`/sdcard/openwallet/`目录，若需将数据转移至另一部手机，拷贝此目录即可。
+数据以sqlite格式储存于`/sdcard/infwallet/`目录，若需将数据转移至另一部手机，拷贝此目录即可。
 
 # 下载
 
-可在[Githu Release页](https://github.com/cassc/openwallet/releases)下载。
+可在[Githu Release页](https://github.com/cassc/infwallet/releases)下载。

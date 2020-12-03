@@ -1,17 +1,16 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
-import 'package:openwallet/components/choice_chip.dart';
-import 'package:openwallet/const.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/tags.dart';
-import 'package:openwallet/model/transaction.dart';
-import 'package:openwallet/pref.dart';
-import 'package:openwallet/view/account_edit.dart';
-import 'package:openwallet/view/tag_wrap.dart';
-import 'package:openwallet/view/transaction_list.dart';
+import 'package:infwallet/utils.dart';
+import 'package:infwallet/components/choice_chip.dart';
+import 'package:infwallet/const.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/tags.dart';
+import 'package:infwallet/model/transaction.dart';
+import 'package:infwallet/pref.dart';
+import 'package:infwallet/view/account_edit.dart';
+import 'package:infwallet/view/tag_wrap.dart';
+import 'package:infwallet/view/transaction_list.dart';
 
 import 'shared.dart';
 import 'tag_select.dart';
@@ -128,8 +127,8 @@ class TransactionEditState extends State<TransactionEditPage> {
             context,
             MaterialPageRoute(
               builder: (context) => AccountEditPage(
-                    account: Account(),
-                  ),
+                account: Account(),
+              ),
             )),
         child: Container(
           child: Text('请先创建账户！'),
@@ -257,23 +256,15 @@ class TransactionEditState extends State<TransactionEditPage> {
     final DateTime initDate = _tx.txDate == null
         ? DateTime.now()
         : DateTime.fromMillisecondsSinceEpoch(_tx.txDate);
+    final onChanged = (dt) {
+      if (dt != null) {
+        setState(() {
+          _tx.txDate = dt.millisecondsSinceEpoch;
+        });
+      }
+    };
 
-    return DateTimePickerFormField(
-      initialValue: initDate,
-      validator: (dt) => dt == null ? 'Please select a date time.' : null,
-      inputType: InputType.both,
-      format: DateFormat('yyyy-MM-dd HH:mm'),
-      editable: false,
-      decoration: InputDecoration(
-          labelText: 'Date/Time', hasFloatingPlaceholder: false),
-      onChanged: (dt) {
-        if (dt != null) {
-          setState(() {
-            _tx.txDate = dt.millisecondsSinceEpoch;
-          });
-        }
-      },
-    );
+    return datetimePicker(initDate, onChanged);
   }
 
   void _delTx() async {

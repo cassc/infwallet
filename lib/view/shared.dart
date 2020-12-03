@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'dart:math';
 
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/tags.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/tags.dart';
+import 'package:infwallet/view/settings.dart';
 
 import 'account_list.dart';
 import 'debt_list.dart';
@@ -43,13 +45,22 @@ Widget genSideDrawer(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'OpenWallet',
+                  'InfWallet',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     color: Colors.white,
                   ),
                 ),
+                /*  Row(
+                  children: [
+                    IconButton(
+                      color: Colors.white,
+                      icon: Icon(Icons.import_export_rounded),
+                      onPressed: () {},
+                    ),
+                  ],
+                ), */
               ]),
           decoration: BoxDecoration(
             color: Colors.blue,
@@ -61,7 +72,7 @@ Widget genSideDrawer(BuildContext context) {
             color: darkcolor,
           ),
           title: Text(
-            '交易记录',
+            FlutterI18n.translate(context, 'transactions'),
             style: textStyle,
           ),
           onTap: () => Navigator.push(
@@ -135,13 +146,15 @@ Widget genSideDrawer(BuildContext context) {
             ),
           ),
         ),
-        // ListTile(
-        //   leading: Icon(Icons.transfer_within_a_station),
-        //   title: Text('Settings'),
-        //   onTap: ()=>Navigator.push(context, MaterialPageRoute(
-        //     builder: (context)=>SettingsPage(),
-        //   )),
-        // ),
+        ListTile(
+          leading: Icon(Icons.settings),
+          title: Text('Settings'),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SettingsPage(),
+              )),
+        ),
       ],
     ),
   );
@@ -239,7 +252,7 @@ String currencySymbolFromAid(int aid, List<Account> acList) {
   if (aid == null || aid < 1 || acList == null || acList.isEmpty) {
     return '?';
   }
-  final currency =  acList.firstWhere((ac) => ac.id == aid);
+  final currency = acList.firstWhere((ac) => ac.id == aid);
   return currency.currencySymbol;
 }
 

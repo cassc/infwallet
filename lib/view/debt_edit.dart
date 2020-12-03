@@ -1,9 +1,8 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/transaction.dart';
-import 'package:openwallet/view/debt_list.dart';
+import 'package:infwallet/utils.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/transaction.dart';
+import 'package:infwallet/view/debt_list.dart';
 import '../model/debts.dart';
 import '../pref.dart';
 import 'account_edit.dart';
@@ -214,15 +213,13 @@ class DebtEditState extends State<DebtEditPage> {
         ? DateTime.now()
         : DateTime.fromMillisecondsSinceEpoch(_debt.dbDate);
 
-    return DateTimePickerFormField(
+    /*  var df = DateTimeField(
       initialValue: initDate,
       validator: (dt) => dt == null ? '请选择日期及时间' : null,
-      inputType: InputType.both,
       format: DateFormat('yyyy-MM-dd HH:mm'),
-      initialDate: initDate,
-      editable: false,
       decoration: InputDecoration(
           labelText: 'Date/Time', hasFloatingPlaceholder: false),
+      onShowPicker: null,
       onChanged: (dt) {
         if (dt != null) {
           setState(() {
@@ -230,7 +227,16 @@ class DebtEditState extends State<DebtEditPage> {
           });
         }
       },
-    );
+    ); */
+    final onChanged = (dt) {
+        if (dt != null) {
+          setState(() {
+            _debt.dbDate = dt.millisecondsSinceEpoch;
+          });
+        }
+      };
+   
+    return datetimePicker(initDate, onChanged);
   }
 
   Widget _txChecker() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:openwallet/model/account.dart';
+import 'package:infwallet/model/account.dart';
 
 import 'account_details.dart';
 import 'account_edit.dart';

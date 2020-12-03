@@ -1,4 +1,4 @@
-import 'package:openwallet/db.dart';
+import 'package:infwallet/db.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Account {

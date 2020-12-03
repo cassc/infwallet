@@ -1,30 +1,32 @@
-name: openwallet
-description: A new Flutter project.
+name: infwallet
+description: An opensource wallet.
+
 
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
-  datetime_picker_formfield:
-  flutter_colorpicker:
-  sqflite:
-  path_provider:
-  simple_permissions:
-  flutter_launcher_icons:
-  charts_flutter:
-  pie_chart:
-  shared_preferences:
-  flutter_circular_chart:
-
+  cupertino_icons: ^1.0.0
+  datetime_picker_formfield: ^1.0.0
+  flutter_colorpicker: ^0.3.0
+  sqflite: ^1.3.0
+  path_provider: ^1.6.24
+  #simple_permissions: ^0.1.9
+  permission_handler: ^5.0.1+1
+  charts_flutter: ^0.9.0
+  pie_chart: ^4.0.1
+  shared_preferences: ^0.5.12
+  flutter_i18n: ^0.15.0
+  devicelocale: ^0.3.3
 
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.8.1
   flutter_test:
     sdk: flutter
 
@@ -33,6 +35,6 @@ flutter:
   uses-material-design: true
 
 flutter_icons:
-  image_path: "icon/icon.png" 
+  image_path: "icon/icon.png"
   android: true
   ios: false

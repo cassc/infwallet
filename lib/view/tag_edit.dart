@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/material_picker.dart';
-import 'package:openwallet/model/tags.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:infwallet/model/tags.dart';
 
 import 'shared.dart';
 

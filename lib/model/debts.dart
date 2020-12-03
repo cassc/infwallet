@@ -1,4 +1,4 @@
-import 'package:openwallet/const.dart';
+import 'package:infwallet/const.dart';
 import 'package:sqflite/sqflite.dart' hide Transaction;
 
 import '../db.dart';

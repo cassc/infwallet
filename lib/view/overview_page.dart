@@ -1,11 +1,10 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:openwallet/const.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/transaction.dart';
+import 'package:infwallet/const.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/transaction.dart';
 import 'package:charts_flutter/flutter.dart';
-// import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 
 import 'shared.dart';
 

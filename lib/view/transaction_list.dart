@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/tags.dart';
-import 'package:openwallet/model/transaction.dart';
-
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/tags.dart';
+import 'package:infwallet/model/transaction.dart';
+import 'package:devicelocale/devicelocale.dart';
 import 'shared.dart';
 import 'transaction_details.dart';
 import 'transaction_edit.dart';
@@ -21,7 +22,20 @@ class TransactionListPageState extends State<TransactionListPage> {
   @override
   void initState() {
     super.initState();
+    _initLang();
     _initData();
+  }
+
+  void _initLang() async {
+    String oslang = await Devicelocale.currentLocale;
+    print('get locale: ' + oslang);
+    if (oslang.toLowerCase().contains('zh')) {
+      oslang = 'zh';
+    } else {
+      oslang = 'en';
+    }
+
+    await FlutterI18n.refresh(context, Locale(oslang));
   }
 
   @override

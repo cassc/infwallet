@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:openwallet/const.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/view/account_list.dart';
+import 'package:infwallet/const.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/view/account_list.dart';
 
 import 'shared.dart';
 

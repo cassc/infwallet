@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/debts.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/debts.dart';
 
 import '../const.dart';
 import 'debt_list.dart';

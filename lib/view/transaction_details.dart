@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:openwallet/model/account.dart';
-import 'package:openwallet/model/tags.dart';
-import 'package:openwallet/model/transaction.dart';
-import 'package:openwallet/view/shared.dart';
-import 'package:openwallet/view/tag_wrap.dart';
-import 'package:openwallet/view/transaction_edit.dart';
-import 'package:openwallet/view/transaction_list.dart';
+import 'package:infwallet/model/account.dart';
+import 'package:infwallet/model/tags.dart';
+import 'package:infwallet/model/transaction.dart';
+import 'package:infwallet/view/shared.dart';
+import 'package:infwallet/view/tag_wrap.dart';
+import 'package:infwallet/view/transaction_edit.dart';
+import 'package:infwallet/view/transaction_list.dart';
 
 class TransactionDetailsPage extends StatelessWidget {
   final Transaction tx;
