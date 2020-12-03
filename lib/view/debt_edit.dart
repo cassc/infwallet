@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/utils.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/model/transaction.dart';
@@ -117,7 +118,7 @@ class DebtEditState extends State<DebtEditPage> {
               ),
             )),
         child: Container(
-          child: Text('请先创建账户'),
+          child: Text(FlutterI18n.translate(context, 'hint_create_account')),
         ),
       );
     }
@@ -129,9 +130,10 @@ class DebtEditState extends State<DebtEditPage> {
       );
     }).toList();
 
+    final hint = FlutterI18n.translate(context, 'hint_select_account');
     return DropdownButtonFormField<int>(
-      hint: Text('请选择账户'),
-      validator: (val) => (val == null || val < 1) ? '请选择账户' : null,
+      hint: Text(hint),
+      validator: (val) => (val == null || val < 1) ? hint : null,
       value: _debt.aid,
       onChanged: (val) {
         setState(() {
@@ -144,8 +146,8 @@ class DebtEditState extends State<DebtEditPage> {
 
   Widget _typeSelect() {
     return DropdownButtonFormField(
-      hint: Text('借入还是贷出?'),
-      validator: (val) => (val == null) ? '请选择借贷类型' : null,
+      hint: Text(FlutterI18n.translate(context, 'lend_or_borrow')),
+      validator: (val) => (val == null) ? FlutterI18n.translate(context, 'please_select') : null,
       value: _debt?.dbType ?? null,
       onChanged: (val) {
         setState(() {
@@ -154,11 +156,11 @@ class DebtEditState extends State<DebtEditPage> {
       },
       items: [
         DropdownMenuItem(
-          child: Text('借入'),
+          child: Text(FlutterI18n.translate(context, 'borrow')),
           value: 'borrow',
         ),
         DropdownMenuItem(
-          child: Text('贷出'),
+          child: Text(FlutterI18n.translate(context, 'lend')),
           value: 'lend',
         ),
       ],
@@ -172,16 +174,16 @@ class DebtEditState extends State<DebtEditPage> {
           if (double.parse(val) > 0) {
             return null;
           } else {
-            return '请输入正数！';
+            return FlutterI18n.translate(context, 'only_pos_val_allowed');
           }
         } catch (e) {
-          return '请输入有效数字！';
+          return FlutterI18n.translate(context, 'invalid_num');
         }
       },
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         isDense: true,
-        labelText: '金额',
+        labelText: FlutterI18n.translate(context, 'amount'),
       ),
       initialValue: '${_debt.amount}',
       onSaved: (val) {
@@ -198,7 +200,7 @@ class DebtEditState extends State<DebtEditPage> {
       initialValue: _debt.note,
       decoration: InputDecoration(
         isDense: true,
-        labelText: '备注',
+        labelText: FlutterI18n.translate(context, 'note'),
       ),
       onSaved: (val) {
         setState(() {
@@ -213,29 +215,14 @@ class DebtEditState extends State<DebtEditPage> {
         ? DateTime.now()
         : DateTime.fromMillisecondsSinceEpoch(_debt.dbDate);
 
-    /*  var df = DateTimeField(
-      initialValue: initDate,
-      validator: (dt) => dt == null ? '请选择日期及时间' : null,
-      format: DateFormat('yyyy-MM-dd HH:mm'),
-      decoration: InputDecoration(
-          labelText: 'Date/Time', hasFloatingPlaceholder: false),
-      onShowPicker: null,
-      onChanged: (dt) {
-        if (dt != null) {
-          setState(() {
-            _debt.dbDate = dt.millisecondsSinceEpoch;
-          });
-        }
-      },
-    ); */
     final onChanged = (dt) {
-        if (dt != null) {
-          setState(() {
-            _debt.dbDate = dt.millisecondsSinceEpoch;
-          });
-        }
-      };
-   
+      if (dt != null) {
+        setState(() {
+          _debt.dbDate = dt.millisecondsSinceEpoch;
+        });
+      }
+    };
+
     return datetimePicker(initDate, onChanged);
   }
 
@@ -250,7 +237,7 @@ class DebtEditState extends State<DebtEditPage> {
       leading: Icon(Icons.check),
       dense: true,
       title: CheckboxListTile(
-        title: Text('自动创建一条关联交易?'),
+        title: Text(FlutterI18n.translate(context, 'ask_also_create_transaction')),
         value: _shouldAddTx,
         onChanged: (val) {
           setState(() {

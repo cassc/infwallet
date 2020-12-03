@@ -45,7 +45,7 @@ class TransactionListPageState extends State<TransactionListPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            '交易记录',
+            FlutterI18n.translate(context, 'transactions'),
             style: TextStyle(
               color: Colors.white,
             ),
@@ -167,7 +167,7 @@ class TransactionListPageState extends State<TransactionListPage> {
         child: Theme(
           data: Theme.of(context).copyWith(canvasColor: Colors.blue),
           child: DropdownButton(
-            hint: Text('请选择', style: TextStyle(color: Colors.white)),
+            hint: Text(FlutterI18n.translate(context, 'please_select'), style: TextStyle(color: Colors.white)),
             style: TextStyle(color: Colors.white),
             icon: Icon(
               Icons.local_bar,

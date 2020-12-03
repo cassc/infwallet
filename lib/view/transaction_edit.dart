@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/utils.dart';
 import 'package:infwallet/components/choice_chip.dart';
 import 'package:infwallet/const.dart';
@@ -41,7 +42,7 @@ class TransactionEditState extends State<TransactionEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    String title = _tx.id == 0 ? '新建交易' : '编辑交易';
+    String title = _tx.id == 0 ? FlutterI18n.translate(context, 'create_tx') : FlutterI18n.translate(context, 'edit_tx');
 
     return Scaffold(
       appBar: AppBar(
@@ -101,7 +102,7 @@ class TransactionEditState extends State<TransactionEditPage> {
                 });
               },
               child: (_tx.tagList == null || _tx.tagList.isEmpty)
-                  ? Text('选择标签')
+              ? Text(FlutterI18n.translate(context, 'select_tag'))
                   : TagWrap(_tx.tagList, allTagList),
             ),
           ),
@@ -131,7 +132,7 @@ class TransactionEditState extends State<TransactionEditPage> {
               ),
             )),
         child: Container(
-          child: Text('请先创建账户！'),
+          child: Text(FlutterI18n.translate(context, 'hint_create_account')),
         ),
       );
     }
@@ -144,8 +145,8 @@ class TransactionEditState extends State<TransactionEditPage> {
     }).toList();
 
     return DropdownButtonFormField<int>(
-      hint: Text('请选择账户'),
-      validator: (val) => (val < 1) ? '请选择账户' : null,
+      hint: Text(FlutterI18n.translate(context, 'hint_select_account')),
+      validator: (val) => (val < 1) ? FlutterI18n.translate(context, 'please_select') : null,
       value: _tx.aid,
       onChanged: (val) {
         setState(() {
@@ -216,16 +217,16 @@ class TransactionEditState extends State<TransactionEditPage> {
           if (double.parse(val) > 0) {
             return null;
           } else {
-            return '必须为正数';
+            return FlutterI18n.translate(context, 'only_pos_val_allowed');
           }
         } catch (e) {
-          return '请输入有效数字';
+          return FlutterI18n.translate(context, 'invalid_num');
         }
       },
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         isDense: true,
-        labelText: '金额',
+        labelText: FlutterI18n.translate(context, 'amount'),
       ),
       initialValue: initAmount,
       onSaved: (val) {
@@ -242,7 +243,7 @@ class TransactionEditState extends State<TransactionEditPage> {
       initialValue: _tx.note,
       decoration: InputDecoration(
         isDense: true,
-        labelText: '备注',
+        labelText: FlutterI18n.translate(context, 'note'),
       ),
       onSaved: (val) {
         setState(() {

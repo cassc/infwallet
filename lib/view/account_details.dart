@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/const.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/model/transaction.dart';
@@ -41,7 +42,7 @@ class AccountDetailsPageState extends State<AccountDetailsPage> {
               Navigator.pop(context);
             },
           ),
-          title: Text('账户详情'),
+          title: Text(FlutterI18n.translate(context, 'account_details')),
           actions: [
             IconButton(
               icon: Icon(Icons.edit),
@@ -88,7 +89,7 @@ class AccountDetailsPageState extends State<AccountDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '余额',
+              FlutterI18n.translate(context, 'balance'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -116,7 +117,7 @@ class AccountDetailsPageState extends State<AccountDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '账户名称',
+              FlutterI18n.translate(context, 'account_name'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -161,7 +162,7 @@ class AccountDetailsPageState extends State<AccountDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '本月',
+              FlutterI18n.translate(context, 'this_month'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -172,19 +173,19 @@ class AccountDetailsPageState extends State<AccountDetailsPage> {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   dense: true,
-                  leading: Text("收支合计"),
+                  leading: Text(FlutterI18n.translate(context, 'net_income')),
                   trailing: Text(mBalanceStr),
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   dense: true,
-                  leading: Text("总收入"),
+                  leading: Text(FlutterI18n.translate(context, 'total_income')),
                   trailing: Text(mIncomeStr),
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   dense: true,
-                  leading: Text("总支出"),
+                  leading: Text(FlutterI18n.translate(context, 'total_expense')),
                   trailing: Text(mExpenseStr),
                 ),
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/const.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/view/account_list.dart';
@@ -26,7 +27,7 @@ class AccountEditState extends State<AccountEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    String title = account.id == 0 ? '新建账户' : '编辑账户';
+    String title = account.id == 0 ? FlutterI18n.translate(context, 'create_account') : FlutterI18n.translate(context, 'edit_account');
     List<Widget> actions = [];
     if (account.id > 0) {
       actions.add(IconButton(
@@ -66,10 +67,10 @@ class AccountEditState extends State<AccountEditPage> {
             dense: true,
             title: TextFormField(
               initialValue: account.title,
-              validator: (val) => val.isEmpty ? "请输入账户名称" : null,
+              validator: (val) => val.isEmpty ? FlutterI18n.translate(context, 'enter_account_name') : null,
               decoration: InputDecoration(
                 isDense: true,
-                labelText: '账户名称',
+                labelText: FlutterI18n.translate(context, 'account_name'),
               ),
               onSaved: (val) {
                 setState(() {
@@ -93,13 +94,13 @@ class AccountEditState extends State<AccountEditPage> {
                   double.parse(val);
                   return null;
                 } catch (e) {
-                  return '请输入有效数字';
+                  return FlutterI18n.translate(context, 'invalid_num');
                 }
               },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 isDense: true,
-                labelText: '初始余额',
+                labelText: FlutterI18n.translate(context, 'initial_balance'),
               ),
               onSaved: (val) {
                 setState(() {
@@ -116,14 +117,14 @@ class AccountEditState extends State<AccountEditPage> {
 
   Widget _currencySelButton() {
     return DropdownButtonFormField(
-      validator: (val) => val == null ? '请选择币种' : null,
+      validator: (val) => val == null ? FlutterI18n.translate(context, 'please_select_currency') : null,
       value: account.currencySymbol,
       onChanged: (cr) {
         setState(() {
           account.currencySymbol = cr;
         });
       },
-      hint: Text('请选择此账户的币种'),
+      hint: Text(FlutterI18n.translate(context, 'please_select_currency')),
       items: currenciesList.map((cr) {
         return DropdownMenuItem(
           child: Text(cr),

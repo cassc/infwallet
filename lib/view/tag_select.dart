@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/model/tags.dart';
 import 'package:infwallet/view/tag_edit.dart';
 
@@ -29,7 +30,7 @@ class TagSelectState extends State<TagSelectPage> {
 
     return Scaffold(
       appBar: new AppBar(
-        title: const Text('选择标签'),
+        title: Text(FlutterI18n.translate(context, 'select_tag')),
         actions: [
           new IconButton(
             onPressed: () async {

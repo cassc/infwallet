@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/model/debts.dart';
 
@@ -24,30 +25,30 @@ class DebtDetailsPage extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          title: Text('借贷'),
+          title: Text(FlutterI18n.translate(context, 'debt')),
           actions: _genActionBtns(context),
         ),
-        body: _buildDebtDetails(),
+        body: _buildDebtDetails(context),
         drawer: genSideDrawer(context),
       ),
     );
   }
 
-  Widget _buildDebtDetails() {
+  Widget _buildDebtDetails(ctx) {
     return ListView(
       padding: EdgeInsets.all(20),
       children: <Widget>[
-        _debtAmountRow(),
-        _debtPaidRow(),
-        _debtAccountRow(),
-        _debtDateRow(),
-        _debtNoteRow(),
+        _debtAmountRow(ctx),
+        _debtPaidRow(ctx),
+        _debtAccountRow(ctx),
+        _debtDateRow(ctx),
+        _debtNoteRow(ctx),
       ],
     );
   }
 
-  Widget _debtAmountRow() {
-    String typeStr = debt.dbType == BORROW ? '借入' : '贷出';
+  Widget _debtAmountRow(context) {
+    String typeStr = debt.dbType == BORROW ? FlutterI18n.translate(context, 'borrow') : FlutterI18n.translate(context, 'lend');
 
     String amountStr = "${debt.amount} ${account.currencySymbol}";
     return Card(
@@ -77,8 +78,8 @@ class DebtDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _debtPaidRow() {
-    String txTypeStr = debt.dbType == BORROW ? '已偿还' : '已收到';
+  Widget _debtPaidRow(context) {
+    String txTypeStr = debt.dbType == BORROW ? FlutterI18n.translate(context, 'paid') : FlutterI18n.translate(context, 'received');
     double txTotalAmount = 0;
     if (debt.txList != null && debt.txList.length > 0) {
       txTotalAmount =
@@ -111,7 +112,7 @@ class DebtDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _debtNoteRow() {
+  Widget _debtNoteRow(context) {
     return Card(
       elevation: 16,
       child: Padding(
@@ -120,7 +121,7 @@ class DebtDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '备注',
+              FlutterI18n.translate(context, 'note'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -139,7 +140,7 @@ class DebtDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _debtDateRow() {
+  Widget _debtDateRow(context) {
     String dateString = DateTime.fromMillisecondsSinceEpoch(debt.dbDate)
         .toString()
         .substring(0, 16);
@@ -172,7 +173,7 @@ class DebtDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _debtAccountRow() {
+  Widget _debtAccountRow(context) {
     return Card(
       elevation: 16,
       child: Padding(
@@ -181,7 +182,7 @@ class DebtDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '账户',
+              FlutterI18n.translate(context, 'account'),
               textAlign: TextAlign.left,
             ),
             SizedBox(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/model/tags.dart';
 
 import 'shared.dart';
@@ -29,6 +30,8 @@ class _TagEditState extends State<TagEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    final hintEdit = FlutterI18n.translate(context, 'edit_tag');
+    final hintCreate = FlutterI18n.translate(context, 'edit_create');
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -37,7 +40,7 @@ class _TagEditState extends State<TagEditPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(isEdit ? '编辑标签' : '新建标签'),
+        title: Text(isEdit ? hintEdit : hintCreate),
         actions: _actionBtnList(),
       ),
       body: _buildTagEdit(),
@@ -50,6 +53,9 @@ class _TagEditState extends State<TagEditPage> {
   }
 
   Widget _buildTagEdit() {
+    final hintEdit = FlutterI18n.translate(context, 'edit_color');
+    final hintTagname = FlutterI18n.translate(context, 'hint_enter_tagname');
+
     return Form(
       key: _formKey,
       child: ListView(
@@ -63,7 +69,7 @@ class _TagEditState extends State<TagEditPage> {
               onPressed: () {
                 _showColorPicker();
               },
-              child: const Text('修改颜色'),
+              child: Text(hintEdit),
               color: tag.color,
               textColor: Colors.white,
             ),
@@ -74,10 +80,10 @@ class _TagEditState extends State<TagEditPage> {
             title: TextFormField(
               initialValue: tag.title,
               validator: (val) =>
-                  (val == null || val.isEmpty) ? '请输入标签名' : null,
+              (val == null || val.isEmpty) ? hintTagname : null,
               decoration: InputDecoration(
                 isDense: true,
-                labelText: '标签名',
+                labelText: FlutterI18n.translate(context, 'tag'),
               ),
               onSaved: (val) {
                 setState(() {
@@ -100,15 +106,15 @@ class _TagEditState extends State<TagEditPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-            title: const Text('Change tag color'),
-            content: SingleChildScrollView(
-              child: MaterialPicker(
-                pickerColor: tag.color,
-                onColorChanged: changeColor,
-                enableLabel: true, // only on portrait mode
-              ),
-            ),
+        title: Text(FlutterI18n.translate(context, 'change_tag_color')),
+        content: SingleChildScrollView(
+          child: MaterialPicker(
+            pickerColor: tag.color,
+            onColorChanged: changeColor,
+            enableLabel: true, // only on portrait mode
           ),
+        ),
+      ),
     );
   }
 

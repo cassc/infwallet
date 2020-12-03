@@ -13,6 +13,11 @@ import 'overview_page.dart';
 import 'tag_manage.dart';
 import 'transaction_list.dart';
 
+const COLOR_BG = Color.fromRGBO(0, 159, 171, 1);
+const BORDER_COLOR = Color.fromRGBO(145, 179, 184, 0.05);
+
+
+
 AppBar genAppBar({String title: ''}) {
   return AppBar(
     title: Text(
@@ -88,7 +93,7 @@ Widget genSideDrawer(BuildContext context) {
             color: darkcolor,
           ),
           title: Text(
-            '账户',
+            FlutterI18n.translate(context, 'account'),
             style: textStyle,
           ),
           onTap: () => Navigator.push(
@@ -104,7 +109,7 @@ Widget genSideDrawer(BuildContext context) {
             color: darkcolor,
           ),
           title: Text(
-            '借贷',
+            FlutterI18n.translate(context, 'debt'),
             style: textStyle,
           ),
           onTap: () => Navigator.push(
@@ -120,7 +125,7 @@ Widget genSideDrawer(BuildContext context) {
             color: darkcolor,
           ),
           title: Text(
-            '标签',
+            FlutterI18n.translate(context, 'tag'),
             style: textStyle,
           ),
           onTap: () => Navigator.push(
@@ -136,7 +141,7 @@ Widget genSideDrawer(BuildContext context) {
             color: darkcolor,
           ),
           title: Text(
-            '图表',
+            FlutterI18n.translate(context, 'chart'),
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           onTap: () => Navigator.push(
@@ -148,7 +153,7 @@ Widget genSideDrawer(BuildContext context) {
         ),
         ListTile(
           leading: Icon(Icons.settings),
-          title: Text('Settings'),
+          title: Text(FlutterI18n.translate(context, 'settings')),
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -164,20 +169,38 @@ void _closePop(BuildContext context) {
   Navigator.of(context).pop();
 }
 
+
+void popup(BuildContext context, String title, String body) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(body),
+        actions: <Widget>[
+          FlatButton(
+            child: Text(FlutterI18n.translate(context, 'cancel')),
+            onPressed: () => _closePop(context),
+          ),
+        ],
+      );
+  });
+}
+
 void showDeleteTxDialog(BuildContext context, okCallback) {
   showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('警告！'),
-          content: Text('确认删除此交易？'),
+          title: Text(FlutterI18n.translate(context, 'warning')),
+          content: Text(FlutterI18n.translate(context, 'confirm_delete_tx')),
           actions: <Widget>[
             FlatButton(
-              child: Text('取消'),
+              child: Text(FlutterI18n.translate(context, 'cancel')),
               onPressed: () => _closePop(context),
             ),
             FlatButton(
-              child: Text('删除'),
+              child: Text(FlutterI18n.translate(context, 'delete')),
               onPressed: okCallback,
             ),
           ],
@@ -190,15 +213,15 @@ void showDeleteAccountDialog(BuildContext context, okCallback) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('警告！'),
-          content: Text('相关交易记录将同时删除！确认要删除吗？'),
+          title: Text(FlutterI18n.translate(context, 'warning')),
+          content: Text(FlutterI18n.translate(context, 'delete_account_warning')),
           actions: <Widget>[
             FlatButton(
-              child: Text('取消'),
+              child: Text(FlutterI18n.translate(context, 'cancel')),
               onPressed: () => _closePop(context),
             ),
             FlatButton(
-              child: Text('删除'),
+              child: Text(FlutterI18n.translate(context, 'delete')),
               onPressed: okCallback,
             ),
           ],
@@ -211,15 +234,15 @@ void showDeleteDebtDialog(BuildContext context, okCallback) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('警告！'),
-          content: Text('相关交易记录将一并删除，确认删除吗？'),
+          title: Text(FlutterI18n.translate(context, 'warning')),
+          content: Text(FlutterI18n.translate(context, 'delete_debt_warning')),
           actions: <Widget>[
             FlatButton(
-              child: Text('取消'),
+              child: Text(FlutterI18n.translate(context, 'cancel')),
               onPressed: () => _closePop(context),
             ),
             FlatButton(
-              child: Text('删除'),
+              child: Text(FlutterI18n.translate(context, 'delete')),
               onPressed: okCallback,
             ),
           ],
@@ -232,15 +255,15 @@ void showDeleteTagDialog(BuildContext context, okCallback) {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Warning'),
-          content: Text('Really delete this tag?'),
+          title: Text(FlutterI18n.translate(context, 'warning')),
+          content: Text(FlutterI18n.translate(context, 'delete_tag_warning')),
           actions: <Widget>[
             FlatButton(
-              child: Text('Cancel'),
+              child: Text(FlutterI18n.translate(context, 'cancel')),
               onPressed: () => _closePop(context),
             ),
             FlatButton(
-              child: Text('OK'),
+              child: Text(FlutterI18n.translate(context, 'delete')),
               onPressed: okCallback,
             ),
           ],

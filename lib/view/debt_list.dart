@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/const.dart';
 import 'package:infwallet/model/debts.dart';
 import 'package:infwallet/model/account.dart';
@@ -73,7 +74,7 @@ class DebtListState extends State<DebtListPage> {
       return RaisedButton(
         elevation: 8,
         color: Colors.amberAccent,
-        child: Text('收款'),
+        child: Text(FlutterI18n.translate(context, 'receive')),
         onPressed: () {
           Navigator.push(
               context,
@@ -82,14 +83,14 @@ class DebtListState extends State<DebtListPage> {
                         dbid: debt.id,
                         amount: debt.amount,
                         txType: INCOME,
-                        note: '接收还款',
+                        note:FlutterI18n.translate(context, 'receive_from_loan')  ,
                         aid: debt.aid,
                       ))));
         },
       );
     } else {
       return RaisedButton(
-        child: Text('偿还'),
+        child: Text(FlutterI18n.translate(context, 'payback')),
         color: Colors.greenAccent,
         onPressed: () {
           Navigator.push(
@@ -99,7 +100,7 @@ class DebtListState extends State<DebtListPage> {
                         dbid: debt.id,
                         amount: debt.amount,
                         txType: EXPENSE,
-                        note: '偿还借款',
+                        note:FlutterI18n.translate(context, 'payback_loan') ,
                         aid: debt.aid,
                       ))));
         },
@@ -115,10 +116,10 @@ class DebtListState extends State<DebtListPage> {
         .toString()
         .substring(0, 16);
 
-    String typeStr = debt.dbType == BORROW ? '借入' : '贷出';
+        String typeStr = debt.dbType == BORROW ?FlutterI18n.translate(context, 'borrow')  : FlutterI18n.translate(context, 'lend');
     String amountStr =
         '${debt.amount} ${currencySymbolFromAid(debt.aid, _acList)}';
-    String txTypeStr = debt.dbType == BORROW ? '偿还' : '收款';
+        String txTypeStr = debt.dbType == BORROW ? FlutterI18n.translate(context, 'payback') : FlutterI18n.translate(context, 'receive');
     double txTotalAmount = 0;
     if (debt.txList != null && debt.txList.length > 0) {
       txTotalAmount =
@@ -173,22 +174,5 @@ class DebtListState extends State<DebtListPage> {
         ],
       ),
     );
-
-    // return ListTile(
-    //   leading: CircleAvatar(
-    //     child: Text(circleChar),
-    //   ),
-    //   title: Text('${debt.amount} ${currencySymbolFromAid(debt.aid, _acList)}'),
-    //   subtitle: Text(dateString),
-    //   trailing: _receivOrPay(debt),
-    //   onTap: () {
-    //     Navigator.push(context, MaterialPageRoute(
-    //       builder: (context) {
-    //         Account ac = _acList.firstWhere((ac) => ac.id == debt.aid);
-    //         return DebtDetailsPage(debt, ac);
-    //       },
-    //     ));
-    //   },
-    // );
   }
 }

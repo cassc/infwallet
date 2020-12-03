@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/model/tags.dart';
 import 'package:infwallet/model/transaction.dart';
@@ -27,7 +28,7 @@ class TransactionDetailsPage extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          title: Text('交易详情'),
+          title: Text(FlutterI18n.translate(context, 'tx_details')),
           actions: [
             IconButton(
               icon: Icon(Icons.edit),
@@ -45,26 +46,26 @@ class TransactionDetailsPage extends StatelessWidget {
             ),
           ],
         ),
-        body: _buildTranssactionDetails(),
+        body: _buildTranssactionDetails(context),
         drawer: genSideDrawer(context),
       ),
     );
   }
 
-  Widget _buildTranssactionDetails() {
+  Widget _buildTranssactionDetails(ctx) {
     return ListView(
       padding: EdgeInsets.all(20),
       children: <Widget>[
-        _txAmountRow(),
-        _txTagRow(),
-        _txAccountRow(),
-        _txDateRow(),
-        _txNoteRow(),
+        _txAmountRow(ctx),
+        _txTagRow(ctx),
+        _txAccountRow(ctx),
+        _txDateRow(ctx),
+        _txNoteRow(ctx),
       ],
     );
   }
 
-  Widget _txAmountRow() {
+  Widget _txAmountRow(context) {
     String sign = tx.txType == 'income' ? '+' : '-';
     String amountStr = "$sign ${tx.amount} ${account.currencySymbol}";
     return Card(
@@ -75,7 +76,7 @@ class TransactionDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '金额',
+              FlutterI18n.translate(context, 'amount'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -94,7 +95,7 @@ class TransactionDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _txNoteRow() {
+  Widget _txNoteRow(context) {
     return Card(
       elevation: 16,
       child: Padding(
@@ -103,7 +104,7 @@ class TransactionDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '备注',
+              FlutterI18n.translate(context, 'note'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -122,7 +123,7 @@ class TransactionDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _txDateRow() {
+  Widget _txDateRow(context) {
     String date = DateTime.fromMillisecondsSinceEpoch(tx.txDate)
         .toString()
         .substring(0, 16);
@@ -134,7 +135,7 @@ class TransactionDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '交易时间',
+              FlutterI18n.translate(context, 'tx_time'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -153,7 +154,7 @@ class TransactionDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _txAccountRow() {
+  Widget _txAccountRow(context) {
     return Card(
       elevation: 16,
       child: Padding(
@@ -162,7 +163,7 @@ class TransactionDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '账户',
+              FlutterI18n.translate(context, 'account'),
               textAlign: TextAlign.left,
             ),
             SizedBox(
@@ -181,7 +182,7 @@ class TransactionDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _txTagRow() {
+  Widget _txTagRow(context) {
     return Card(
       elevation: 16,
       child: Padding(
@@ -192,7 +193,7 @@ class TransactionDetailsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                '标签',
+                FlutterI18n.translate(context, 'tag'),
                 textAlign: TextAlign.left,
               ),
               SizedBox(

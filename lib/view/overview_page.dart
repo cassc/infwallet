@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/const.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/model/transaction.dart';
@@ -8,7 +9,7 @@ import 'package:charts_flutter/flutter.dart';
 
 import 'shared.dart';
 
-const String TAG_UNKNOWN = '其它';
+const String TAG_UNKNOWN = 'NA';
 
 class OverviewPage extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _OverviewPageState extends State<OverviewPage> {
       onWillPop: quitApp,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('图表'),
+          title: Text(FlutterI18n.translate(context, 'chart')),
         ),
         body: Center(
           child: Padding(
@@ -53,7 +54,9 @@ class _OverviewPageState extends State<OverviewPage> {
               children: <Widget>[
                 buildAccountSelector(),
                 SizedBox(height: 20),
-                Center(child: Text('总支出')),
+                Center(
+                    child:
+                        Text(FlutterI18n.translate(context, 'total_expense'))),
                 Container(
                   child: buildLineChart(),
                   height: 300,
@@ -61,7 +64,12 @@ class _OverviewPageState extends State<OverviewPage> {
                 SizedBox(
                   height: 20,
                 ),
-                Center(child: Text('$year.$month月支出分类')),
+                Center(
+                    child: Text(FlutterI18n.translate(context, 'month_expense',
+                        translationParams: {
+                      'year': year.toString(),
+                      'month': month.toString()
+                    }))),
                 GestureDetector(
                   onPanUpdate: (details) {
                     int now = DateTime.now().millisecondsSinceEpoch;
@@ -185,7 +193,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
     if (netList.length > 1) {
       serList.add(Series<TimeSeriesAmount, String>(
-        id: '收入',
+          id: FlutterI18n.translate(context, 'income'),
         domainFn: (TimeSeriesAmount dateVal, _) =>
             '${dateVal.time.year}.${dateVal.time.month}',
         measureFn: (TimeSeriesAmount dateVal, _) => dateVal.value,
@@ -193,7 +201,7 @@ class _OverviewPageState extends State<OverviewPage> {
         // fillColorFn: (_, __) => MaterialPalette.green.shadeDefault,
       ));
       serList.add(Series<TimeSeriesAmount, String>(
-        id: '支出',
+          id: FlutterI18n.translate(context, 'expense'),
         domainFn: (TimeSeriesAmount dateVal, _) =>
             '${dateVal.time.year}.${dateVal.time.month}',
         measureFn: (TimeSeriesAmount dateVal, _) => dateVal.value,
@@ -201,7 +209,7 @@ class _OverviewPageState extends State<OverviewPage> {
         // fillColorFn: (_, __) => MaterialPalette.red.shadeDefault,
       ));
       serList.add(Series<TimeSeriesAmount, String>(
-        id: '总收支',
+          id: FlutterI18n.translate(context, 'net_income'),
         domainFn: (TimeSeriesAmount dateVal, _) =>
             '${dateVal.time.year}.${dateVal.time.month}',
         measureFn: (TimeSeriesAmount dateVal, _) => dateVal.value,
@@ -216,7 +224,7 @@ class _OverviewPageState extends State<OverviewPage> {
   Widget buildAccountSelector() {
     if (_acList == null || _acList.isEmpty) {
       return Container(
-        child: Text('无账户'),
+        child: Text(FlutterI18n.translate(context, 'no_account_exists')),
       );
     }
     return DropdownButton(
@@ -282,7 +290,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
     return [
       Series<TagAmount, String>(
-        id: 'Expense By Tag',
+        id: FlutterI18n.translate(context, 'expense_by_tag'),
         domainFn: (TagAmount ta, _) => '${ta.tag}',
         measureFn: (TagAmount ta, _) => ta.value,
         data: dataByTag.values.toList(),

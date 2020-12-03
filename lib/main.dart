@@ -8,9 +8,8 @@ void main() async {
   final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(
     translationLoader: FileTranslationLoader(
       useCountryCode: false,
-      fallbackFile: 'en',
+      fallbackFile: 'assets/i18n/en.yaml',
       basePath: 'assets/i18n',
-      // forcedLocale: Locale('zh'),
       decodeStrategies: [YamlDecodeStrategy()],
     ),
   );
