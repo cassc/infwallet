@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:infwallet/view/shared.dart';
 import 'package:sqflite/sqflite.dart';
@@ -17,7 +19,7 @@ class Tag {
   }
 
   Map<String, dynamic> toMap() {
-    print('$title color: $color');
+    log('$title color: $color');
     var map = <String, dynamic>{
       'title': title,
       'color': colorToHex(color),
@@ -47,7 +49,7 @@ Future<List<Tag>> getTags() async {
   List<Map<String, dynamic>> results = await db.query('tag');
   return results.map((result) {
     Tag tag = Tag.fromMap(result);
-    print('tagid: ${tag.id} title: ${tag.title}');
+    log('tagid: ${tag.id} title: ${tag.title}');
     return tag;
   }).toList();
 }
@@ -64,7 +66,7 @@ Future upsertTagByTitle(Tag tag) async {
 }
 
 Future upsertTagById(Tag tag) async {
-  print('upsertTagById ${tag.id} ${tag.title} ${tag.color}');
+  log('upsertTagById ${tag.id} ${tag.title} ${tag.color}');
   Database db = await DBHelper.getDB();
   Map<String, dynamic> map = tag.toMap();
   map.remove('id');

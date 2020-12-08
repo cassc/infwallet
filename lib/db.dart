@@ -6,6 +6,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+const DB_FILENAME = 'infwallet.db';
+const APP_FOLDER = 'infwallet';
+
 class DBHelper {
   static Database db;
   static Future<Database> getDB() async {
@@ -20,10 +23,10 @@ class DBHelper {
     }
     // var databasesPath = await getDatabasesPath();
     Directory extDir = await getExternalStorageDirectory();
-    String root = join(extDir.path, 'infwallet');
-    String path = join(root, 'infwallet.db');
+    String root = join(extDir.path, APP_FOLDER);
+    String path = join(root, DB_FILENAME);
 
-    backupDb(root, 'infwallet.db');
+    backupDb(root, DB_FILENAME);
 
     db = await openDatabase(
       path,
@@ -34,7 +37,12 @@ class DBHelper {
     return db;
   }
 
-  static Future close() async => db?.close();
+  static Future close() async {
+    if (db!=null){
+      await db.close();
+      db = null;
+    }
+  }
 
   static _onCreate(Database db, int newVersion) async {
     await db.execute(
@@ -52,8 +60,15 @@ class DBHelper {
   }
 }
 
-void backupDb(String root, String dbfile) {
-  final file = File(join(root, dbfile));
+Future<File> getDbFile() async {
+  Directory extDir = await getExternalStorageDirectory();
+  String root = join(extDir.path, APP_FOLDER);
+
+  return File(join(root, DB_FILENAME));
+}
+
+void backupDb(String root, String dbfile) async {
+  final file = await getDbFile();
   final today = DateTime.now();
   final backupName = '${today.year}_${today.month}_${today.day}_$dbfile';
   final backupPath = join(root, 'backup', backupName);
@@ -61,13 +76,13 @@ void backupDb(String root, String dbfile) {
   if (file.existsSync() && !backup.existsSync()) {
     backup.parent.createSync(recursive: true);
     file.copySync(backupPath);
-    print('backup to $backupPath success');
+    log('backup to $backupPath success');
   }
 }
 
 Future<bool> _requestStoragePermission() async {
   bool status = await Permission.storage.isGranted;
-  if (status){
+  if (status) {
     return status;
   }
 
@@ -77,5 +92,4 @@ Future<bool> _requestStoragePermission() async {
   }
 
   return await Permission.storage.request().isGranted;
-
 }

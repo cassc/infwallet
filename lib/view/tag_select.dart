@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/model/tags.dart';
+import 'package:infwallet/utils.dart';
 import 'package:infwallet/view/tag_edit.dart';
 
 class TagSelectPage extends StatefulWidget {
@@ -45,11 +46,11 @@ class TagSelectState extends State<TagSelectPage> {
           ),
         ],
       ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        alignment: Alignment.topLeft,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(DEFAULT_EDGE),
         child: Wrap(
-            spacing: 6.0, // gap between adjacent chips
+            alignment: WrapAlignment.spaceBetween,
+            spacing: 2.0, // gap between adjacent chips
             runSpacing: 0.0, // gap between lines
             children: childList),
       ),

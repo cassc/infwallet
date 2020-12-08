@@ -1,8 +1,12 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/db.dart';
 import 'package:infwallet/view/shared.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:file_picker/file_picker.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -55,18 +59,51 @@ class _SettingsPageState extends State<SettingsPage>
 
   final _formKey = GlobalKey<FormState>();
 
-  exportData() async {
-    Database db = await DBHelper.getDB();
-
-    // todo export transactions to csv
+  _restoreData() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      File file = File(result.files.single.path);
+      File db = await getDbFile();
+      try {
+        await DBHelper.close();
+        file.copy(db.path);
+        final title = FlutterI18n.translate(context, 'success');
+        final body = FlutterI18n.translate(context, 'importSuccess');
+        popup(context, title, body);
+      } catch (e) {
+        final title = FlutterI18n.translate(context, 'error');
+        final body = FlutterI18n.translate(context, 'restoreFailed');
+        popup(context, title, body);
+      }
+    }
   }
 
-  Widget _exportRow() {
+  restoreData() async {
+    await confirmDialog(context, FlutterI18n.translate(context, 'backup'),
+        FlutterI18n.translate(context, 'backupWarning'), _restoreData);
+  }
+
+  backupData() async {
+    File db = await getDbFile();
+    final params = SaveFileDialogParams(sourceFilePath: db.path);
+    final filePath = await FlutterFileDialog.saveFile(params: params);
+
+    if (filePath != null) {
+      log('File saved to $filePath');
+      String title = FlutterI18n.translate(context, 'success');
+      String body = FlutterI18n.translate(context, 'backupSuccess');
+      popup(context, title, body);
+    }else{
+      log('Backup canceled');
+    }
+  }
+
+  Widget _backupRow() {
     return _wrapRow(
       Row(
         children: <Widget>[
           Container(
-            child: Text(FlutterI18n.translate(context, "exportData")),
+            child: Text(FlutterI18n.translate(context, "backupData")),
           ),
           Spacer(),
           ButtonTheme(
@@ -76,8 +113,32 @@ class _SettingsPageState extends State<SettingsPage>
             padding: EdgeInsets.symmetric(vertical: 4, horizontal: 9),
             child: RaisedButton(
               color: COLOR_BG,
-              child: I18nText("export"),
-              onPressed: exportData,
+              child: I18nText("backup"),
+              onPressed: backupData,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _restoreRow() {
+    return _wrapRow(
+      Row(
+        children: <Widget>[
+          Container(
+            child: Text(FlutterI18n.translate(context, "restoreData")),
+          ),
+          Spacer(),
+          ButtonTheme(
+            minWidth: 30,
+            height: 30,
+            textTheme: ButtonTextTheme.primary,
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 9),
+            child: RaisedButton(
+              color: COLOR_BG,
+              child: I18nText("restore"),
+              onPressed: restoreData,
             ),
           ),
         ],
@@ -87,7 +148,8 @@ class _SettingsPageState extends State<SettingsPage>
 
   Widget _build() {
     List<Widget> items = [
-      _exportRow(),
+      _backupRow(),
+      _restoreRow(),
     ];
 
     return Container(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/model/account.dart';
@@ -28,7 +30,7 @@ class TransactionListPageState extends State<TransactionListPage> {
 
   void _initLang() async {
     String oslang = await Devicelocale.currentLocale;
-    print('get locale: ' + oslang);
+    log('get locale: ' + oslang);
     if (oslang.toLowerCase().contains('zh')) {
       oslang = 'zh';
     } else {

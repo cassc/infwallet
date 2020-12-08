@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/const.dart';
@@ -152,7 +154,7 @@ class AccountEditState extends State<AccountEditPage> {
   }
 
   void _delAccount() async {
-    print('deleting account $account');
+    log('deleting account $account');
     await deleteAccountById(account.id);
     Navigator.push(
         context,

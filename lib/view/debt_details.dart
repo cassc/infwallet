@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -145,7 +147,7 @@ class DebtDetailsPage extends StatelessWidget {
         .toString()
         .substring(0, 16);
 
-    print('id: ${debt.id} dt: ${debt.dbDate}');
+    log('id: ${debt.id} dt: ${debt.dbDate}');
     return Card(
       elevation: 16,
       child: Padding(

@@ -22,7 +22,8 @@ dependencies:
   shared_preferences: ^0.5.12
   flutter_i18n: ^0.15.0
   devicelocale: ^0.3.3
-
+  flutter_file_dialog: ^1.0.0
+  file_picker: ^2.1.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.8.1

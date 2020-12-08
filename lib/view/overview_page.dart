@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -74,12 +75,12 @@ class _OverviewPageState extends State<OverviewPage> {
                   onPanUpdate: (details) {
                     int now = DateTime.now().millisecondsSinceEpoch;
                     if (details.delta.dx > 5) {
-                      print("swipe right ${details.delta.dx}");
+                      log("swipe right ${details.delta.dx}");
                       if (now - lastSwipe > 500) {
                         addToMonth(-1);
                       }
                     } else if (details.delta.dx < -5) {
-                      print("swipe left ${details.delta.dx}");
+                      log("swipe left ${details.delta.dx}");
                       if (now - lastSwipe > 500) {
                         addToMonth(1);
                       }

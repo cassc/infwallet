@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/model/tags.dart';
 import 'package:infwallet/view/tag_edit.dart';
 import 'shared.dart';
@@ -22,7 +23,7 @@ class TagManageState extends State<TagManagePage> {
     return WillPopScope(
       onWillPop: quitApp,
       child: Scaffold(
-        appBar: genAppBar(title: 'Tags'),
+        appBar: genAppBar(title: FlutterI18n.translate(context, 'tags')),
         body: _buildTagList(),
         drawer: genSideDrawer(context),
         floatingActionButton: FloatingActionButton(
@@ -43,11 +44,10 @@ class TagManageState extends State<TagManagePage> {
   Widget _buildTagList() {
     List<Widget> childList = buildChips(context);
 
-    return Container(
-      padding: EdgeInsets.all(20),
-      alignment: Alignment.topLeft,
+    return SingleChildScrollView(
       child: Wrap(
-          spacing: 6.0, // gap between adjacent chips
+          alignment: WrapAlignment.spaceBetween,
+          spacing: 0.0, // gap between adjacent chips
           runSpacing: 0.0, // gap between lines
           children: childList),
     );

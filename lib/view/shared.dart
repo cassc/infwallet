@@ -16,8 +16,6 @@ import 'transaction_list.dart';
 const COLOR_BG = Color.fromRGBO(0, 159, 171, 1);
 const BORDER_COLOR = Color.fromRGBO(145, 179, 184, 0.05);
 
-
-
 AppBar genAppBar({String title: ''}) {
   return AppBar(
     title: Text(
@@ -169,106 +167,66 @@ void _closePop(BuildContext context) {
   Navigator.of(context).pop();
 }
 
+Future confirmDialog(
+    BuildContext context, String title, String body, okCallback) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(body),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(FlutterI18n.translate(context, 'cancel')),
+              onPressed: () => _closePop(context),
+            ),
+            FlatButton(
+              child: Text(FlutterI18n.translate(context, 'confirm')),
+              onPressed: (){
+                _closePop(context);
+                okCallback();
+              },
+            ),
+          ],
+        );
+      });
+}
 
 void popup(BuildContext context, String title, String body) {
   showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text(title),
-        content: Text(body),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(FlutterI18n.translate(context, 'cancel')),
-            onPressed: () => _closePop(context),
-          ),
-        ],
-      );
-  });
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(body),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(FlutterI18n.translate(context, 'ok')),
+              onPressed: () => _closePop(context),
+            ),
+          ],
+        );
+      });
 }
 
 void showDeleteTxDialog(BuildContext context, okCallback) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(FlutterI18n.translate(context, 'warning')),
-          content: Text(FlutterI18n.translate(context, 'confirm_delete_tx')),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'cancel')),
-              onPressed: () => _closePop(context),
-            ),
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'delete')),
-              onPressed: okCallback,
-            ),
-          ],
-        );
-      });
+  confirmDialog(context, FlutterI18n.translate(context, 'warning'),
+      FlutterI18n.translate(context, 'confirm_delete_tx'), okCallback);
 }
 
 void showDeleteAccountDialog(BuildContext context, okCallback) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(FlutterI18n.translate(context, 'warning')),
-          content: Text(FlutterI18n.translate(context, 'delete_account_warning')),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'cancel')),
-              onPressed: () => _closePop(context),
-            ),
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'delete')),
-              onPressed: okCallback,
-            ),
-          ],
-        );
-      });
+  confirmDialog(context, FlutterI18n.translate(context, 'warning'),
+      FlutterI18n.translate(context, 'delete_account_warning'), okCallback);
 }
 
 void showDeleteDebtDialog(BuildContext context, okCallback) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(FlutterI18n.translate(context, 'warning')),
-          content: Text(FlutterI18n.translate(context, 'delete_debt_warning')),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'cancel')),
-              onPressed: () => _closePop(context),
-            ),
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'delete')),
-              onPressed: okCallback,
-            ),
-          ],
-        );
-      });
+  confirmDialog(context, FlutterI18n.translate(context, 'warning'),
+      FlutterI18n.translate(context, 'delete_debt_warning'), okCallback);
 }
 
 void showDeleteTagDialog(BuildContext context, okCallback) {
-  showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(FlutterI18n.translate(context, 'warning')),
-          content: Text(FlutterI18n.translate(context, 'delete_tag_warning')),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'cancel')),
-              onPressed: () => _closePop(context),
-            ),
-            FlatButton(
-              child: Text(FlutterI18n.translate(context, 'delete')),
-              onPressed: okCallback,
-            ),
-          ],
-        );
-      });
+  confirmDialog(context, FlutterI18n.translate(context, 'warning'),
+      FlutterI18n.translate(context, 'delete_tag_warning'), okCallback);
 }
 
 String currencySymbolFromAid(int aid, List<Account> acList) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:infwallet/const.dart';
@@ -147,7 +149,7 @@ class AccountDetailsPageState extends State<AccountDetailsPage> {
         mExpense += tx.amount;
         mBalance -= tx.amount;
       }
-      print('txtype: ${tx.txType}, amount: ${tx.amount}, balance: $mBalance, in: $mIncome, out: $mExpense');
+      log('txtype: ${tx.txType}, amount: ${tx.amount}, balance: $mBalance, in: $mIncome, out: $mExpense');
     }
 
     String mBalanceStr = '${mBalance.toStringAsFixed(2)} ${_ac.currencySymbol}';

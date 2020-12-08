@@ -56,3 +56,17 @@ income: "收入"
 expense: "支出"
 no_account_exists: "无账户"
 expense_by_tag: "按标签查看支出"
+backup: "备份"
+backupData: "备份数据"
+success: '成功'
+exportSuccess: '导出成功！'
+backupSuccess: '备份成功！'
+ok: 'Ok'
+error: '错误'
+restoreFailed: '恢复数据错误！'
+restore: '恢复'
+restoreData: '恢复'
+restoreWarning: '恢复数据会覆盖当前所有数据！'
+restoreSuccess: '恢复成功！'
+confirm: '确认'
+tags: '标签'

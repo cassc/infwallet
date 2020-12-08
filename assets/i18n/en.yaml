@@ -56,3 +56,16 @@ income: "Income"
 expense: "Expense"
 no_account_exists: "No account exists"
 expense_by_tag: "View expenses by tags"
+backup: "Backup"
+backupData: "Backup data"
+success: 'Success'
+backupSuccess: 'Backup data success!'
+ok: 'Ok'
+error: 'Error'
+restoreFailed: 'Restore data error!'
+restore: 'Restore'
+restoreWarning: 'All current data will be overridden, confirm?'
+restoreSuccess: 'Restore success! Please restart the App.'
+confirm: 'Confirm'
+tags: 'Tags'
+exportSuccess: 'Export success!'
