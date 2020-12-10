@@ -1,12 +1,13 @@
-import 'dart:collection';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_echarts/flutter_echarts.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:infwallet/components/charts.dart';
 import 'package:infwallet/const.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/model/transaction.dart';
-import 'package:charts_flutter/flutter.dart';
+// import 'package:charts_flutter/flutter.dart';
 
 import 'shared.dart';
 
@@ -20,6 +21,10 @@ class OverviewPage extends StatefulWidget {
 class _OverviewPageState extends State<OverviewPage> {
   // final GlobalKey<AnimatedCircularChartState> _pieChartKey =
   //     new GlobalKey<AnimatedCircularChartState>();
+
+  List _expenseList = [];
+  List _incomeList = [];
+  List _netList = [];
 
   List<Transaction> _txList = [];
   List<Account> _acList = [];
@@ -129,6 +134,13 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
   Widget buildLineChart() {
+    return Echarts(
+      option: barChartOption([]),
+    );
+  }
+
+/* 
+  Widget _buildLineChart() {
     List<Series<dynamic, String>> dataList = genDataList();
 
     return BarChart(
@@ -145,9 +157,9 @@ class _OverviewPageState extends State<OverviewPage> {
         SeriesLegend(),
       ],
     );
-  }
+  } */
 
-  List<Series<dynamic, String>> genDataList() {
+  /*  List<Series<dynamic, String>> _genDataList() {
     List<TimeSeriesAmount> netList = [];
     List<TimeSeriesAmount> incomeList = [];
     List<TimeSeriesAmount> expenseList = [];
@@ -220,6 +232,56 @@ class _OverviewPageState extends State<OverviewPage> {
       ));
     }
     return serList;
+  } */
+
+  void genDataList() {
+    List<TimeSeriesAmount> netList = [];
+    List<TimeSeriesAmount> incomeList = [];
+    List<TimeSeriesAmount> expenseList = [];
+    for (Transaction tx in _txList.reversed) {
+      if (tx.aid != activeAccount.id) {
+        continue;
+      }
+      DateTime dt = DateTime.fromMillisecondsSinceEpoch(tx.txDate);
+      int month = dt.month;
+      int year = dt.year;
+      dt = DateTime(year, month, 1);
+      bool isIncome = tx.txType == INCOME;
+      double value = tx.amount;
+      double amount = isIncome ? tx.amount : (0 - tx.amount);
+
+      if (netList.isEmpty || netList.last.time != dt) {
+        netList.add(TimeSeriesAmount(dt, amount));
+      } else {
+        netList.last.value += amount;
+      }
+
+      if (isIncome) {
+        if (incomeList.isEmpty || incomeList.last.time != dt) {
+          incomeList.add(TimeSeriesAmount(dt, value));
+        } else {
+          incomeList.last.value += value;
+        }
+        if (expenseList.isEmpty || expenseList.last.time != dt) {
+          expenseList.add(TimeSeriesAmount(dt, 0));
+        }
+      } else {
+        if (incomeList.isEmpty || incomeList.last.time != dt) {
+          incomeList.add(TimeSeriesAmount(dt, 0));
+        }
+        if (expenseList.isEmpty || expenseList.last.time != dt) {
+          expenseList.add(TimeSeriesAmount(dt, value));
+        } else {
+          expenseList.last.value += value;
+        }
+      }
+    }
+
+    setState(() {
+      _expenseList = expenseList;
+      _incomeList = incomeList;
+      _netList = netList;
+    });
   }
 
   Widget buildAccountSelector() {
@@ -250,15 +312,20 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
   Widget buildPieChart() {
+    // todo pie chart
+    return Container();
+  }
+/* 
+  Widget buildPieChart() {
     return PieChart(
       genPieDataFromTXList(),
       animate: true,
       defaultRenderer: ArcRendererConfig(
           arcWidth: 60, arcRendererDecorators: [ArcLabelDecorator()]),
     );
-  }
+  } */
 
-  List<Series<TagAmount, String>> genPieDataFromTXList() {
+  /* List<Series<TagAmount, String>> genPieDataFromTXList() {
     if (_txList == null || _txList.isEmpty) {
       return [];
     }
@@ -299,7 +366,7 @@ class _OverviewPageState extends State<OverviewPage> {
             '${ta.tag}\n${ta.value.toStringAsFixed(2)}',
       )
     ];
-  }
+  } */
 
   void attachTx(Map<String, TagAmount> tagData, String tag, Transaction tx) {
     // double val = tx.txType == INCOME ? tx.amount : -tx.amount;

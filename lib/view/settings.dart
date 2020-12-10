@@ -68,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage>
         await DBHelper.close();
         file.copy(db.path);
         final title = FlutterI18n.translate(context, 'success');
-        final body = FlutterI18n.translate(context, 'importSuccess');
+        final body = FlutterI18n.translate(context, 'restoreSuccess');
         popup(context, title, body);
       } catch (e) {
         final title = FlutterI18n.translate(context, 'error');
@@ -80,7 +80,7 @@ class _SettingsPageState extends State<SettingsPage>
 
   restoreData() async {
     await confirmDialog(context, FlutterI18n.translate(context, 'backup'),
-        FlutterI18n.translate(context, 'backupWarning'), _restoreData);
+        FlutterI18n.translate(context, 'restoreWarning'), _restoreData);
   }
 
   backupData() async {

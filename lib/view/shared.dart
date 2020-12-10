@@ -182,7 +182,7 @@ Future confirmDialog(
             ),
             FlatButton(
               child: Text(FlutterI18n.translate(context, 'confirm')),
-              onPressed: (){
+              onPressed: () {
                 _closePop(context);
                 okCallback();
               },

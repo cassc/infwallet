@@ -43,20 +43,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.0-nullsafety.1"
-  charts_common:
-    dependency: transitive
-    description:
-      name: charts_common
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.9.0"
-  charts_flutter:
-    dependency: "direct main"
-    description:
-      name: charts_flutter
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.9.0"
   clock:
     dependency: transitive
     description:
@@ -146,6 +132,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.3.4"
+  flutter_echarts:
+    dependency: "direct main"
+    description:
+      name: flutter_echarts
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.5.0"
   flutter_file_dialog:
     dependency: "direct main"
     description:
@@ -203,13 +196,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.16.1"
-  logging:
-    dependency: transitive
-    description:
-      name: logging
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.11.4"
   matcher:
     dependency: transitive
     description:
@@ -294,13 +280,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.1.0"
-  pie_chart:
-    dependency: "direct main"
-    description:
-      name: pie_chart
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.1"
   platform:
     dependency: transitive
     description:
@@ -446,6 +425,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.0-nullsafety.3"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.7"
   win32:
     dependency: transitive
     description:
