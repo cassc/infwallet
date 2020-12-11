@@ -75,7 +75,7 @@ class _SettingsPageState extends State<SettingsPage>
         final body = FlutterI18n.translate(context, 'restoreFailed');
         popup(context, title, body);
       }
-    }
+    } 
   }
 
   restoreData() async {

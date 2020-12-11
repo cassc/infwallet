@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 const DB_FILENAME = 'infwallet.db';
 const APP_FOLDER = 'infwallet';
@@ -16,20 +15,12 @@ class DBHelper {
       return db;
     }
 
-    bool allowStore = await _requestStoragePermission();
+    final dbFile = await getDbFile();
 
-    if (!allowStore) {
-      throw Exception('Storage permission request failed!');
-    }
-    // var databasesPath = await getDatabasesPath();
-    Directory extDir = await getExternalStorageDirectory();
-    String root = join(extDir.path, APP_FOLDER);
-    String path = join(root, DB_FILENAME);
-
-    backupDb(root, DB_FILENAME);
+    log('database path: ${dbFile.path}');
 
     db = await openDatabase(
-      path,
+      dbFile.path,
       version: 5,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
@@ -38,7 +29,7 @@ class DBHelper {
   }
 
   static Future close() async {
-    if (db!=null){
+    if (db != null) {
       await db.close();
       db = null;
     }
@@ -61,7 +52,7 @@ class DBHelper {
 }
 
 Future<File> getDbFile() async {
-  Directory extDir = await getExternalStorageDirectory();
+  Directory extDir = await getApplicationDocumentsDirectory();
   String root = join(extDir.path, APP_FOLDER);
 
   return File(join(root, DB_FILENAME));
@@ -80,16 +71,16 @@ void backupDb(String root, String dbfile) async {
   }
 }
 
-Future<bool> _requestStoragePermission() async {
-  bool status = await Permission.storage.isGranted;
-  if (status) {
-    return status;
+/* Future<bool> _requestStoragePermission() async {
+  if (await Permission.storage.request().isGranted) {
+    return true;
   }
 
-  if (await Permission.storage.isRestricted) {
-    log('Permission is restricted!');
-    return false;
+  log('Permission is restricted!');
+
+  if (await Permission.storage.isPermanentlyDenied) {
+    openAppSettings();
   }
 
-  return await Permission.storage.request().isGranted;
-}
+  return false;
+} */
