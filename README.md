@@ -11,10 +11,6 @@
 * 概览：以月为单位的收支情况
 
 
-# 存储位置/备份
+# 备份/恢复
 
-数据以sqlite格式储存于`/sdcard/infwallet/`目录，若需将数据转移至另一部手机，拷贝此目录即可。
-
-# 下载
-
-可在[Githu Release页](https://github.com/cassc/infwallet/releases)下载。
+使用sqlite储存数据。换手机或更新前建议先备份数据库文件，点击`设置`-`备份`/`恢复`即可备份数据库至文件或恢复数据。
