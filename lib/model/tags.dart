@@ -49,7 +49,7 @@ Future<List<Tag>> getTags() async {
   List<Map<String, dynamic>> results = await db.query('tag');
   return results.map((result) {
     Tag tag = Tag.fromMap(result);
-    log('tagid: ${tag.id} title: ${tag.title}');
+    // log('tagid: ${tag.id} title: ${tag.title}');
     return tag;
   }).toList();
 }

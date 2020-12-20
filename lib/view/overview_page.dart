@@ -22,9 +22,9 @@ class _OverviewPageState extends State<OverviewPage> {
   // final GlobalKey<AnimatedCircularChartState> _pieChartKey =
   //     new GlobalKey<AnimatedCircularChartState>();
 
-  List _expenseList = [];
-  List _incomeList = [];
-  List _netList = [];
+  List<TimeSeriesAmount> _expenseList = [];
+  List<TimeSeriesAmount> _incomeList = [];
+  List<TimeSeriesAmount> _netList = [];
 
   List<Transaction> _txList = [];
   List<Account> _acList = [];
@@ -47,6 +47,11 @@ class _OverviewPageState extends State<OverviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    String monthExpenseTitle = FlutterI18n.translate(context, 'month_expense',
+        translationParams: {
+          'year': year.toString(),
+          'month': month.toString()
+        });
     return WillPopScope(
       onWillPop: quitApp,
       child: Scaffold(
@@ -60,22 +65,6 @@ class _OverviewPageState extends State<OverviewPage> {
               children: <Widget>[
                 buildAccountSelector(),
                 SizedBox(height: 20),
-                Center(
-                    child:
-                        Text(FlutterI18n.translate(context, 'total_expense'))),
-                Container(
-                  child: buildLineChart(),
-                  height: 300,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Center(
-                    child: Text(FlutterI18n.translate(context, 'month_expense',
-                        translationParams: {
-                      'year': year.toString(),
-                      'month': month.toString()
-                    }))),
                 GestureDetector(
                   onPanUpdate: (details) {
                     int now = DateTime.now().millisecondsSinceEpoch;
@@ -92,11 +81,14 @@ class _OverviewPageState extends State<OverviewPage> {
                     }
                     lastSwipe = now;
                   },
-                  child: Container(
-                    child: buildPieChart(),
-                    height: 300,
-                  ),
+                  child: buildPieChart(monthExpenseTitle),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                    child: Text(FlutterI18n.translate(context, 'txsummary'))),
+                buildBarChart(),
                 SizedBox(
                   height: 20,
                 ),
@@ -131,35 +123,33 @@ class _OverviewPageState extends State<OverviewPage> {
       year = endYear;
       month = endMonth;
     });
+
+    _genDataList();
   }
 
-  Widget buildLineChart() {
-    return Echarts(
-      option: barChartOption([]),
-    );
-  }
+  Widget buildBarChart() {
+    log('building bar chart');
+    if (_netList.isEmpty) {
+      return Center(
+        child: Text('No data'),
+      );
+    }
 
-/* 
-  Widget _buildLineChart() {
-    List<Series<dynamic, String>> dataList = genDataList();
+    final optionStr =
+        expenseBarChartOption(_incomeList, _expenseList, _netList);
+    // log('barChartOption: $optionStr');
 
-    return BarChart(
-      dataList,
-      animate: true,
-      barGroupingType: BarGroupingType.grouped,
-      // border
-      defaultRenderer: BarRendererConfig(
-        groupingType: BarGroupingType.grouped,
-        strokeWidthPx: 2.0,
+    return Container(
+      width: 360,
+      height: 240,
+      child: Echarts(
+        extraScript: expenseBarChartScript(),
+        option: optionStr,
       ),
-      // legend
-      behaviors: [
-        SeriesLegend(),
-      ],
     );
-  } */
+  }
 
-  /*  List<Series<dynamic, String>> _genDataList() {
+  void _genDataList() {
     List<TimeSeriesAmount> netList = [];
     List<TimeSeriesAmount> incomeList = [];
     List<TimeSeriesAmount> expenseList = [];
@@ -202,80 +192,7 @@ class _OverviewPageState extends State<OverviewPage> {
       }
     }
 
-    List<Series<TimeSeriesAmount, String>> serList = [];
-
-    if (netList.length > 1) {
-      serList.add(Series<TimeSeriesAmount, String>(
-          id: FlutterI18n.translate(context, 'income'),
-        domainFn: (TimeSeriesAmount dateVal, _) =>
-            '${dateVal.time.year}.${dateVal.time.month}',
-        measureFn: (TimeSeriesAmount dateVal, _) => dateVal.value,
-        data: incomeList,
-        // fillColorFn: (_, __) => MaterialPalette.green.shadeDefault,
-      ));
-      serList.add(Series<TimeSeriesAmount, String>(
-          id: FlutterI18n.translate(context, 'expense'),
-        domainFn: (TimeSeriesAmount dateVal, _) =>
-            '${dateVal.time.year}.${dateVal.time.month}',
-        measureFn: (TimeSeriesAmount dateVal, _) => dateVal.value,
-        data: expenseList,
-        // fillColorFn: (_, __) => MaterialPalette.red.shadeDefault,
-      ));
-      serList.add(Series<TimeSeriesAmount, String>(
-          id: FlutterI18n.translate(context, 'net_income'),
-        domainFn: (TimeSeriesAmount dateVal, _) =>
-            '${dateVal.time.year}.${dateVal.time.month}',
-        measureFn: (TimeSeriesAmount dateVal, _) => dateVal.value,
-        data: netList,
-        // fill color
-        // fillColorFn: (_, __) => MaterialPalette.white,
-      ));
-    }
-    return serList;
-  } */
-
-  void genDataList() {
-    List<TimeSeriesAmount> netList = [];
-    List<TimeSeriesAmount> incomeList = [];
-    List<TimeSeriesAmount> expenseList = [];
-    for (Transaction tx in _txList.reversed) {
-      if (tx.aid != activeAccount.id) {
-        continue;
-      }
-      DateTime dt = DateTime.fromMillisecondsSinceEpoch(tx.txDate);
-      int month = dt.month;
-      int year = dt.year;
-      dt = DateTime(year, month, 1);
-      bool isIncome = tx.txType == INCOME;
-      double value = tx.amount;
-      double amount = isIncome ? tx.amount : (0 - tx.amount);
-
-      if (netList.isEmpty || netList.last.time != dt) {
-        netList.add(TimeSeriesAmount(dt, amount));
-      } else {
-        netList.last.value += amount;
-      }
-
-      if (isIncome) {
-        if (incomeList.isEmpty || incomeList.last.time != dt) {
-          incomeList.add(TimeSeriesAmount(dt, value));
-        } else {
-          incomeList.last.value += value;
-        }
-        if (expenseList.isEmpty || expenseList.last.time != dt) {
-          expenseList.add(TimeSeriesAmount(dt, 0));
-        }
-      } else {
-        if (incomeList.isEmpty || incomeList.last.time != dt) {
-          incomeList.add(TimeSeriesAmount(dt, 0));
-        }
-        if (expenseList.isEmpty || expenseList.last.time != dt) {
-          expenseList.add(TimeSeriesAmount(dt, value));
-        } else {
-          expenseList.last.value += value;
-        }
-      }
-    }
+    log('found ${netList.length} tx entries');
 
     setState(() {
       _expenseList = expenseList;
@@ -298,6 +215,7 @@ class _OverviewPageState extends State<OverviewPage> {
       onChanged: (aid) {
         setState(() {
           activeAccount = _acList.firstWhere((ac) => ac.id == aid);
+          _genDataList();
         });
       },
       items: _acList.map((ac) {
@@ -311,62 +229,18 @@ class _OverviewPageState extends State<OverviewPage> {
     );
   }
 
-  Widget buildPieChart() {
-    // todo pie chart
-    return Container();
-  }
-/* 
-  Widget buildPieChart() {
-    return PieChart(
-      genPieDataFromTXList(),
-      animate: true,
-      defaultRenderer: ArcRendererConfig(
-          arcWidth: 60, arcRendererDecorators: [ArcLabelDecorator()]),
+  Widget buildPieChart(String title) {
+    String optionStr = pieChartNightingaleOption(title, year, month, _txList);
+    return Container(
+      width: 480,
+      height: 420,
+      alignment: AlignmentDirectional.topCenter,
+      child: Echarts(
+        extraScript: expenseBarChartScript(),
+        option: optionStr,
+      ),
     );
-  } */
-
-  /* List<Series<TagAmount, String>> genPieDataFromTXList() {
-    if (_txList == null || _txList.isEmpty) {
-      return [];
-    }
-
-    Map<String, TagAmount> dataByTag = HashMap();
-
-    for (Transaction tx in _txList) {
-      if (tx.txType != EXPENSE) {
-        continue;
-      }
-      if (tx.aid != activeAccount.id) {
-        continue;
-      }
-
-      DateTime dt = DateTime.fromMillisecondsSinceEpoch(tx.txDate);
-
-      if (!isThisMonth(dt)) {
-        continue;
-      }
-
-      var tagList = tx.tagList;
-      if (tagList == null || tagList.isEmpty) {
-        attachTx(dataByTag, TAG_UNKNOWN, tx);
-      } else {
-        for (String tag in tagList) {
-          attachTx(dataByTag, tag, tx);
-        }
-      }
-    }
-
-    return [
-      Series<TagAmount, String>(
-        id: FlutterI18n.translate(context, 'expense_by_tag'),
-        domainFn: (TagAmount ta, _) => '${ta.tag}',
-        measureFn: (TagAmount ta, _) => ta.value,
-        data: dataByTag.values.toList(),
-        labelAccessorFn: (TagAmount ta, _) =>
-            '${ta.tag}\n${ta.value.toStringAsFixed(2)}',
-      )
-    ];
-  } */
+  }
 
   void attachTx(Map<String, TagAmount> tagData, String tag, Transaction tx) {
     // double val = tx.txType == INCOME ? tx.amount : -tx.amount;
@@ -399,12 +273,13 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
   bool yearInRange(int nYear, int nMonth) {
-    return nYear != null &&
-        nMonth != null &&
-        nYear >= startYear &&
-        nMonth >= startMonth &&
-        nYear <= endYear &&
-        nMonth <= endMonth;
+    if (nYear == null || nMonth == null) {
+      return false;
+    }
+    var months = nYear * 12 + nMonth;
+    var start = startYear * 12 + startMonth;
+    var end = endYear * 12 + endMonth;
+    return months <= end && months >= start;
   }
 
   bool isThisMonth(DateTime dt) {
