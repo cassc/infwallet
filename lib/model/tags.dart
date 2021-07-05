@@ -32,17 +32,12 @@ class Tag {
 }
 
 final defaultTagList = [
-  Tag(title: '兴趣', color: Colors.red),
-  Tag(title: '工资', color: Colors.green),
-  Tag(title: '销售', color: Colors.blueAccent),
-  Tag(title: '食品', color: Colors.amber),
-  Tag(title: '饮料', color: Colors.indigoAccent),
-  Tag(title: '朋友', color: Colors.yellowAccent),
-  Tag(title: '家庭', color: Colors.indigo[300]),
-  Tag(title: '交通', color: Colors.brown),
+  Tag(title: 'Hobby', color: Colors.red),
+  Tag(title: 'Salary', color: Colors.green),
+  Tag(title: 'Food', color: Colors.amber),
+  Tag(title: 'Beverage', color: Colors.indigoAccent),
+  Tag(title: 'Transport', color: Colors.brown),
 ];
-
-
 
 Future<List<Tag>> getTags() async {
   Database db = await DBHelper.getDB();

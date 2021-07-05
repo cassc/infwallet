@@ -7,7 +7,6 @@ import 'package:infwallet/components/charts.dart';
 import 'package:infwallet/const.dart';
 import 'package:infwallet/model/account.dart';
 import 'package:infwallet/model/transaction.dart';
-// import 'package:charts_flutter/flutter.dart';
 
 import 'shared.dart';
 
@@ -230,7 +229,16 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
   Widget buildPieChart(String title) {
-    String optionStr = pieChartNightingaleOption(title, year, month, _txList);
+    List<Transaction> txs = [..._txList];
+    if (activeAccount != null) {
+      txs = txs.where((tx) => tx.aid == activeAccount.id).toList();
+    }
+
+    if (txs.isEmpty) {
+      return Container();
+    }
+    String optionStr = pieChartNightingaleOption(title, year, month, txs);
+
     return Container(
       width: 480,
       height: 420,

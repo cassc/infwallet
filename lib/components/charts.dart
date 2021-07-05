@@ -177,6 +177,13 @@ List<Map<String, dynamic>> pieDataInMonth(
 String pieChartNightingaleOption(
     String title, int year, int month, List<Transaction> txList) {
   var thisMonthExpenseList = expenseListInMonth(year, month, txList);
+
+  // Todo how to handle month with no data:
+  // If I hide the chart, there is no other way to switch to other months
+  /*   if (thisMonthExpenseList.isEmpty) {
+    return '';
+  } */
+
   var tags = expenseTagsInMonth(thisMonthExpenseList);
   var dataStr = jsonEncode(pieDataInMonth(thisMonthExpenseList, tags));
   var legendStr = jsonEncode(tags);

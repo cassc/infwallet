@@ -11,6 +11,7 @@ hint_select_account: "Please select an account"
 edit_tag: "Edit tag"
 lend_or_borrow: "Borrow or lend?"
 please_select: "Please select"
+debt: "Debt"
 only_pos_val_allowed: "Please select a positive number!"
 invalid_num: "Please enter a valid number"
 amount: "Amount"
@@ -32,10 +33,9 @@ total_income: "Total income"
 total_expense: "Total expense"
 tx_time: "Time"
 please_select_currency: "Select a currency"
-debt: "debt"
 paid: "Paid"
 received: "Received"
-blance: "balance"
+blance: "Balance"
 create_account: "Create account"
 edit_account: "Edit account"
 enter_account_name: "Account name"
@@ -64,7 +64,8 @@ ok: 'Ok'
 error: 'Error'
 restoreFailed: 'Restore data error!'
 restore: 'Restore'
-restoreWarning: 'All current data will be overridden, confirm?'
+restoreData: 'Restore data'
+restoreWarning: 'All current data will be overridden, continue?'
 restoreSuccess: 'Restore success! Please restart the App.'
 confirm: 'Confirm'
 tags: 'Tags'
