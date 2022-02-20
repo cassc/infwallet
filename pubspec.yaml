@@ -2,7 +2,7 @@ name: infwallet
 description: An opensource wallet.
 
 
-version: 1.0.4
+version: 1.0.6
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
