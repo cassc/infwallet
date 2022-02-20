@@ -158,7 +158,7 @@ class TransactionEditState extends State<TransactionEditPage> {
   }
 
   Widget _txTypeSelect() {
-    return SingleChoiceHolder([INCOME, EXPENSE], _tx.txType ?? INCOME,
+    return SingleChoiceHolder([INCOME, EXPENSE], _tx.txType ?? EXPENSE,
         (choice) {
       setState(() {
         _tx.txType = choice;
