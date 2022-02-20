@@ -62,14 +62,21 @@ String expenseBarChartOption(List<TimeSeriesAmount> inList,
   List<String> dataSources = ['Income', 'Expense', 'Net'];
   String dataSourceStr = jsonEncode(dataSources);
 
-  int zoomStart = 80;
+  int zoomStart = 50;
   int zoomEnd = 100;
-  if (dates.length < 12) {
+  int minMonthToShow = 6;
+
+  if (dates.length < minMonthToShow) {
     zoomStart = 0;
+  }else {
+    var d = (dates.length - minMonthToShow) / dates.length * 100;
+    zoomStart = d.round();
   }
 
+  
+ 
 // https://echarts.apache.org/examples/en/editor.html?c=bar-stack
-  return '''
+ return '''
 {
     tooltip: {
         trigger: 'axis',
@@ -104,16 +111,19 @@ String expenseBarChartOption(List<TimeSeriesAmount> inList,
         {
             name: 'Income',
             type: 'bar',
+            color: 'green',
             data: $yInDataStr
         },
         {
             name: 'Expense',
             type: 'bar',
+            color: 'red',
             data: $yExpenseDataStr
         },
         {
             name: 'Net',
             type: 'bar',
+            color: '#2D2A2EDD',
             data: $yNetDataStr
         }
     ],
@@ -121,7 +131,7 @@ String expenseBarChartOption(List<TimeSeriesAmount> inList,
         start: $zoomStart,
         end: $zoomEnd,
         handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-        handleSize: '60%',
+        handleSize: '100%',
         handleStyle: {
             color: '#fff',
             shadowBlur: 3,
