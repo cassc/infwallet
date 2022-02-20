@@ -210,7 +210,7 @@ class TransactionEditState extends State<TransactionEditPage> {
   }
 
   Widget _amountField() {
-    String initAmount = (_tx.amount == 0) ? '0' : '${_tx.amount}';
+    String initAmount = (_tx.amount == 0) ? '' : '${_tx.amount}';
     return TextFormField(
       validator: (val) {
         try {
