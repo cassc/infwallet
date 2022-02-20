@@ -65,21 +65,34 @@ class _OverviewPageState extends State<OverviewPage> {
                 buildAccountSelector(),
                 SizedBox(height: 20),
                 GestureDetector(
-                  onPanUpdate: (details) {
+                  onHorizontalDragEnd: (details) {
+                    int now = DateTime.now().millisecondsSinceEpoch;
+                    var velocity = details.primaryVelocity;
+                    log("Horizontal swipe with velocity $velocity");
+                    if (velocity > 0) {
+                      addToMonth(-1);
+                    } else {
+                      addToMonth(1);
+                    }
+                    lastSwipe = now;
+                  },
+                  /* onPanUpdate: (details) {
                     int now = DateTime.now().millisecondsSinceEpoch;
                     if (details.delta.dx > 5) {
                       log("swipe right ${details.delta.dx}");
                       if (now - lastSwipe > 500) {
+                        log("addToMonth -1");
                         addToMonth(-1);
                       }
                     } else if (details.delta.dx < -5) {
                       log("swipe left ${details.delta.dx}");
                       if (now - lastSwipe > 500) {
+                        log("addToMonth 1");
                         addToMonth(1);
                       }
                     }
                     lastSwipe = now;
-                  },
+                  }, */
                   child: buildPieChart(monthExpenseTitle),
                 ),
                 SizedBox(
