@@ -1,8 +1,6 @@
 name: infwallet
 description: An opensource wallet.
-
-
-version: 1.0.6
+version: 1.0.7
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -23,6 +21,7 @@ dependencies:
   file_picker: ^4.4.0
   flutter_echarts: ^2.3.0
   intl:
+  input_calculator: ^2.0.0
 
 
 dev_dependencies:
