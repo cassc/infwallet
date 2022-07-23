@@ -12,6 +12,7 @@ import 'package:infwallet/pref.dart';
 import 'package:infwallet/view/account_edit.dart';
 import 'package:infwallet/view/tag_wrap.dart';
 import 'package:infwallet/view/transaction_list.dart';
+import 'package:input_calculator/input_calculator.dart';
 
 import 'shared.dart';
 import 'tag_select.dart';
@@ -210,9 +211,7 @@ class TransactionEditState extends State<TransactionEditPage> {
   }
 
   Widget _amountField() {
-    String initAmount = (_tx.amount == 0) ? '' : '${_tx.amount}';
-    return TextFormField(
-      validator: (val) {
+    var validator = (val) {
         try {
           if (double.parse(val) > 0) {
             return null;
@@ -222,19 +221,25 @@ class TransactionEditState extends State<TransactionEditPage> {
         } catch (e) {
           return FlutterI18n.translate(context, 'invalid_num');
         }
-      },
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
+      };
+
+      var onSave = (val) {
+        setState(() {
+            _tx.amount = val;
+        });
+      };
+
+      var inputDecoration = InputDecoration(
         isDense: true,
         labelText: FlutterI18n.translate(context, 'amount'),
-      ),
-      initialValue: initAmount,
-      onSaved: (val) {
-        setState(() {
-          _tx.amount = double.parse(val);
-        });
-      },
-    );
+      );
+      
+      return CalculatorTextFormField(
+        initialValue: _tx.amount ?? 0.0,
+        inputDecoration: inputDecoration,
+        validator: validator, 
+        onSubmitted: onSave,
+      );
   }
 
   Widget _noteField() {
